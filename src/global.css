@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'SnPro';
+    src: url('/public/fonts/SNPro-VariableFont_wght.ttf');
+}
+
+* {
+    box-sizing: border-box;
+    transition: 0.2s linear;
+}
+
+body, html{
+    margin: 0px;
+    background-color: rgb(90, 90, 90);
+}
+
+*{
+    --preset-text-color: rgb(255, 255, 255);
+    --preset-text-color-hover: rgb(130, 130, 130);
+    --preset-text-color-active: rgb(79, 79, 79);
+
+    --preset-text-3-fontfamily: 'SnPro';
+    --preset-text-3-fontsize: 1.3rem;
+    --preset-text-3-fontweight: 500;
+    --preset-text-3-lineheight: 120%;
+    --preset-text-3-letterspacing: 0px;
+}
