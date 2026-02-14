@@ -19,7 +19,6 @@ module.exports = {
         port: 3000,                           
         historyApiFallback: true,            
     },
-    
     module: {
         rules: [                               
             {                                 
@@ -27,7 +26,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',  
                     options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                        presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
                         plugins: [
                           [
                             'babel-plugin-root-import',
@@ -59,9 +58,20 @@ module.exports = {
                   ]             
             },
             {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },  
+            {
                 test: /\.(png|jpg|webp|mp4|wav|svg)$/,
                 type: 'asset/resource'                                              
             }
         ]
     },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+        alias: {
+            '~': path.resolve(__dirname, 'src')
+        }
+    }
 }
