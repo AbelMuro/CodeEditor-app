@@ -5,8 +5,8 @@ import NavigationBar from './Common/Components/NavigationBar';
 import './global.css';
 
 /* 
-    this is where i left off, i am currently in the header component
-    i want to add different text color for different keywords in the code string
+    this is where i left off, i am almost done designing the header component of the landing page
+    i just want to add a shooting star effect and then i can work on the responsiveness
 */
 
 function App(){

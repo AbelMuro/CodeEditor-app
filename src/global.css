@@ -3,6 +3,11 @@
     src: url('/public/fonts/SNPro-VariableFont_wght.ttf');
 }
 
+@font-face{
+    font-family: 'RobotoMono';
+    src: url('/public/fonts/RobotoMono-VariableFont_wght.ttf');
+}
+
 * {
     box-sizing: border-box;
     transition: 0.2s linear;
@@ -10,10 +15,19 @@
 
 body, html{
     margin: 0px;
-    background-color: rgb(31, 31, 31);
+    background-color:#1F1F1F;
+    background-image: url('./Common/images/background.png');
+    background-size: contain;
 }
 
 *{
+    --first-layer: 100;
+    --second-layer: 75;
+    --third-layer: 50;
+    --fourth-layer: 25;
+    --fifth-layer: 5;
+    --last-layer: -1;
+    
     --preset-text-color-keyword: #328dd7;
     --preset-text-color-keyword-hover: #1982d8;
     --preset-text-color-keyword-active: #0366b6;
@@ -38,7 +52,17 @@ body, html{
     --preset-text-color-hover: rgb(130, 130, 130);
     --preset-text-color-active: rgb(79, 79, 79);
 
+    --preset-text-1-fontfamily: 'SnPro';
+    --preset-text-1-fontsize: 3rem;
+    --preset-text-1-fontweight: 800;
+    --preset-text-1-lineheight: 120%;
+    --preset-text-1-letterspacing: 0px;
 
+    --preset-text-2-fontfamily: 'SnPro';
+    --preset-text-2-fontsize: 2rem;
+    --preset-text-2-fontweight: 800;
+    --preset-text-2-lineheight: 110%;
+    --preset-text-2-letterspacing: 0px;
 
     --preset-text-3-fontfamily: 'SnPro';
     --preset-text-3-fontsize: 1.3rem;
