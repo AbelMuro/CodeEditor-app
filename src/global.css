@@ -15,7 +15,7 @@
 
 body, html{
     margin: 0px;
-    background-color:#1F1F1F;
+    background-color: var(--preset-background-color-body);
     background-image: url('./Common/images/background.png');
     background-size: contain;
 }
@@ -28,6 +28,10 @@ body, html{
     --fifth-layer: 5;
     --last-layer: -1;
     
+    --preset-background-color-body: #1F1F1F;
+    --preset-background-color-container: rgb(19, 19, 19);
+
+
     --preset-text-color-keyword: #328dd7;
     --preset-text-color-keyword-hover: #1982d8;
     --preset-text-color-keyword-active: #0366b6;

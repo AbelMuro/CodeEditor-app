@@ -8,7 +8,7 @@ type Props = {
 }
 
 function MobileNavigationBar({handleLink} : Props) {
-    const [open, setOpen] = useCycle(false, true);
+    const [open, setOpen] = useCycle(true, false);
 
     const handleOpen = () => {
         setOpen();
