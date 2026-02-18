@@ -1,0 +1,57 @@
+.files{
+    width: 300px;
+    height: 100%;
+    padding: 15px;
+    background-color: var(--preset-background-color-container);
+    display: flex;
+    flex-direction: column;
+}
+
+.files_commands{
+    display: flex;
+    gap: 15px;
+}
+
+.files_commands_add_file{
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.files_commands_add_file:hover{
+    background-color: #393939;
+}
+
+.files_commands_add_file:active{
+    background-color: #4e4e4e;
+}   
+
+.files_commands_add_file > img{
+    width: 40px;
+    object-fit: contain;
+}
+
+.files_commands_add_folder{
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.files_commands_add_folder > img{
+    width: 40px;
+    object-fit: contain;
+}
+
+.files_commands_add_folder:hover{
+    background-color: #393939;
+}
+
+.files_commands_add_folder:active{
+    background-color: #4e4e4e;
+}   

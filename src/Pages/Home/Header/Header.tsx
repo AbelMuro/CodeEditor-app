@@ -1,9 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import ShootingStars from './ShootingStars';
 import images from './images';
 import * as styles from './styles.module.css';
 
 function Header() {
+    const navigate = useNavigate();
+
+    const handleNavigate = () => {
+        navigate('/editor')
+    }
+
     return(
         <section className={styles.container}>
             <header className={styles.header}>
@@ -17,14 +24,15 @@ function Header() {
                     <h3 className={styles.header_desc_two}>
                         Experience code editing on a whole different level.
                     </h3>
+                    <button className={styles.header_start} onClick={handleNavigate}>
+                        Start Here
+                    </button>
                 </section>
                 <section className={styles.header_images}>
                     <img className={styles.header_image_laptop} src={images['laptop']}/>
                     <img className={styles.header_image_mobile} src={images['mobile']}/>                
                 </section>
-                
             </header>
-            <ShootingStars/>
         </section>
 
     )
