@@ -6,9 +6,10 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am designing the FileManager component
+    this is where i left off, i am desiging how the folders and files are to be organized
+    in the file manager, i am planning on using recursion to traverse through complex folder structures
 
-    i want to create a file manager system
+    for now, i want to design the add folder component and add file component
 */
 
 function App(){

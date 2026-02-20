@@ -9,7 +9,6 @@
 
 .files_commands{
     display: flex;
-    gap: 15px;
 }
 
 .files_commands_add_file{
@@ -55,3 +54,12 @@
 .files_commands_add_folder:active{
     background-color: #4e4e4e;
 }   
+
+.folders{
+    height: 100%;
+    padding-left: 15px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
