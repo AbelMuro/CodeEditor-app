@@ -8,9 +8,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am desiging the recusive function in the FolderReducer file
-
-    i need to recursively find a nested object within the global state (every object represents a folder)
+    this is where i left off, i need to work on the css and functionality of the folder dropdown in folder management
 */
 
 function App(){

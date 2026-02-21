@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useSelector } from 'react-redux';
 import {LayoutGroup} from 'framer-motion';
 import Folder from './Folder';
 import AddFile from './AddFile';
@@ -6,59 +7,26 @@ import AddFolder from './AddFolder';
 import * as styles from './styles.module.css';
 
 /* 
-    {
-        folderNameOne: {
-            type: 'folder'
-            fileName: {
-                type: 'file'
-                name: ''
-                extension: '',
-                content: ''
-            },
-            folderNameTwo: {
-                type: 'folder'
-                fileName: {
-                    type: 'file'
-                    name: '',
-                    extension: '',
-                    content: ''
-                    
-            }
-        }
+    {      
+        name: 'root'
+        directory: ['root'],
+        files: [],
+        folders: [
+            {
+                name: 'my folder'
+                directory: ['root', 'my folder']
+                files: [{name: '', extension: '', content: ''}, {name: '', extension: '', content: ''}]
+                folders: []
+            }        
+        ]
+
     }
 */
 
 function FileManager() {
-    const [folders, setFolders] = useState({
-            folder: {
-                name: 'public',
-                folder: {
-                    name: 'fonts',
-                    file: {
-                        name: 'myFont',
-                        extension: 'ttf',
-                        content: ''
-                    }
-                },
-                file: {
-                    name: 'example',
-                    extension: 'js',
-                    content: '',
-                }
-            },
-            folder: {
-                name: 'node_modules',
-                file: {
-                    name: 'anotherExample',
-                    extension: 'js',
-                    content: '',
-                }
-            }
-    });
+    const folders = useSelector(state => state.folderManagement.allFolders.folders);
 
-    useEffect(() => {
 
-    }, [])
 
     return (
         <aside className={styles.files}>
@@ -68,7 +36,16 @@ function FileManager() {
             </div> 
             <div className={styles.folders}> 
                 <LayoutGroup>
-                    <Folder name={'public'}/>    
+                    {
+                        folders.map((folder) => {
+                            const name = folder.name;
+                            const directory = folder.directory;
+                            const files = folder.files;
+                            const folders = folder.folders;
+         
+                            return <Folder name={name} directory={directory} files={files} folders={folders}/>
+                       })
+                    }
                 </LayoutGroup>          
             </div>
         </aside>

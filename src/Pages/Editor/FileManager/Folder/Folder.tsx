@@ -1,19 +1,34 @@
-import React, { ReactElement } from 'react';
-import {motion, useCycle, LayoutGroup} from 'framer-motion';
+import React, { useEffect} from 'react';
+import File from './File';
+import { useDispatch } from 'react-redux';
+import {motion, useCycle} from 'framer-motion';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
+type File = {name: string, extension: string, content: string}
+type Folder = {name: string, directory: Array<string>, files: Array<File>, folders: Array<Folder>}
+
 type Props = {
     name: string,
-    children: ReactElement
+    files: Array<File>,
+    folders: Array<Folder>,
+    directory: Array<string>,
 }
 
-function Folder({name, children} : Props) {
+function Folder({name, files, folders, directory} : Props) {
     const [isOpen, setOpen] = useCycle(false, true);
+    const dispatch = useDispatch();
 
     const handleOpen = () => {
         setOpen();
     }
+
+    useEffect(() => {
+        if(isOpen){
+            dispatch({type: 'CHANGE_DIRECTORY', payload: {directory, name}});
+        }
+            
+    }, [isOpen])
 
     return(
             <motion.section
@@ -32,13 +47,29 @@ function Folder({name, children} : Props) {
                             />
                         {name}                    
                     </motion.div>
+                    <motion.div layout className={styles.folder_content}>
+                        {
+                            isOpen && 
+                                folders.map((folder) => {
+                                    const name = folder.name;
+                                    const directory = folder.directory;
+                                    const folders = folder.folders;
+                                    const files = folder.files;
+                                    return (<Folder name={name} directory={directory} folders={folders} files={files}/>)
+                                }) 
+                        }
+                        {
+                            isOpen && 
+                                files.map((file) => {
+                                    const name = file.name;
+                                    const extension = file.extension;
+                                    const content = file.content;
+                                    return (<File name={name} extension={extension} content={content}/>)
+                                })
+                        }
 
-                    {
-                        isOpen && 
-                        <motion.div layout className={styles.fake_content}>
+                    </motion.div>
 
-                        </motion.div>
-                    }
             </motion.section>            
     )
 }
