@@ -1,0 +1,22 @@
+
+.files_commands_add_file{
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.files_commands_add_file:hover{
+    background-color: #393939;
+}
+
+.files_commands_add_file:active{
+    background-color: #4e4e4e;
+}   
+
+.files_commands_add_file > img{
+    width: 40px;
+    object-fit: contain;
+}

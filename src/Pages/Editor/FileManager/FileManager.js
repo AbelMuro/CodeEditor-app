@@ -1,39 +1,70 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {LayoutGroup} from 'framer-motion';
 import Folder from './Folder';
-import icons from './icons';
+import AddFile from './AddFile';
+import AddFolder from './AddFolder';
 import * as styles from './styles.module.css';
 
 /* 
     {
-        folderName: {
+        folderNameOne: {
+            type: 'folder'
             fileName: {
-                name: fileName 
-                extension: js
+                type: 'file'
+                name: ''
+                extension: '',
+                content: ''
             },
-            folderName: {
+            folderNameTwo: {
+                type: 'folder'
                 fileName: {
-                name: { 
-                    name: fileName,
-                    extension: js
-                }
+                    type: 'file'
+                    name: '',
+                    extension: '',
+                    content: ''
+                    
             }
         }
     }
 */
 
 function FileManager() {
-    
+    const [folders, setFolders] = useState({
+            folder: {
+                name: 'public',
+                folder: {
+                    name: 'fonts',
+                    file: {
+                        name: 'myFont',
+                        extension: 'ttf',
+                        content: ''
+                    }
+                },
+                file: {
+                    name: 'example',
+                    extension: 'js',
+                    content: '',
+                }
+            },
+            folder: {
+                name: 'node_modules',
+                file: {
+                    name: 'anotherExample',
+                    extension: 'js',
+                    content: '',
+                }
+            }
+    });
+
+    useEffect(() => {
+
+    }, [])
 
     return (
         <aside className={styles.files}>
             <div className={styles.files_commands}>
-                <button className={styles.files_commands_add_file}>
-                    <img src={icons['addFile']}/>
-                </button>
-                <button className={styles.files_commands_add_folder}>
-                    <img src={icons['addFolder']}/>
-                </button>
+                <AddFile/>
+                <AddFolder/>
             </div> 
             <div className={styles.folders}> 
                 <LayoutGroup>
