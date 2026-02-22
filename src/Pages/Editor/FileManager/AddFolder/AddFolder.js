@@ -8,7 +8,7 @@ function AddFolder() {
 
 
     const handleFolder = () => {
-        dispatch({type: 'ADD_FOLDER', payload: {name: 'public'}})
+        dispatch({type: 'CREATE_FOLDER', payload: true});
     }
 
     return(

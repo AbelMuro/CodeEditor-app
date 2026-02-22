@@ -1,11 +1,13 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
 function AddFile() {
+    const dispatch = useDispatch();
 
     const handleFile = () => {
-
+        dispatch({type: 'ADD_FILE', payload: {name: 'newFile', extension: 'js', content: ''}})
     }
 
     return(

@@ -18,7 +18,11 @@
 }
 
 .folder_content{
-    padding: 15px;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    transition: all 0s;
 }
 
 

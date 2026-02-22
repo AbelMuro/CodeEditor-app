@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector } from 'react-redux';
-import {LayoutGroup} from 'framer-motion';
+import {LayoutGroup, motion} from 'framer-motion';
 import Folder from './Folder';
 import AddFile from './AddFile';
 import AddFolder from './AddFolder';
@@ -34,8 +34,8 @@ function FileManager() {
                 <AddFile/>
                 <AddFolder/>
             </div> 
-            <div className={styles.folders}> 
-                <LayoutGroup>
+            <LayoutGroup>            
+                <motion.div layout className={styles.folders}> 
                     {
                         folders.map((folder) => {
                             const name = folder.name;
@@ -46,8 +46,8 @@ function FileManager() {
                             return <Folder name={name} directory={directory} files={files} folders={folders}/>
                        })
                     }
-                </LayoutGroup>          
-            </div>
+                </motion.div>
+            </LayoutGroup>  
         </aside>
     )
 }
