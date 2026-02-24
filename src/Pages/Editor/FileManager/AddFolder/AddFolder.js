@@ -1,11 +1,10 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useTypedDispatch } from '~/Store';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
 function AddFolder() {
-    const dispatch = useDispatch();
-
+    const dispatch = useTypedDispatch();
 
     const handleFolder = () => {
         dispatch({type: 'CREATE_FOLDER', payload: true});
@@ -15,7 +14,7 @@ function AddFolder() {
         <button 
             onClick={handleFolder}
             className={styles.files_commands_add_folder}>
-            <img src={icons['addFolder']}/>
+                <img src={icons['addFolder']}/>
         </button>
     )
 };

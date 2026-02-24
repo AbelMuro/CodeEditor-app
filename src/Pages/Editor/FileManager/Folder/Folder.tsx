@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo} from 'react';
 import File from './File';
 import CreateFolder from './CreateFolder';
-import { useDispatch, useSelector } from 'react-redux';
+import {useTypedDispatch} from '~/Store';
 import {motion, useCycle} from 'framer-motion';
 import icons from './icons';
 import * as styles from './styles.module.css';
@@ -18,7 +18,7 @@ type Props = {
 
 function Folder({name, files, folders, directory} : Props) {
     const [isOpen, setOpen] = useCycle(false, true);
-    const dispatch = useDispatch();
+    const dispatch = useTypedDispatch();
 
     const handleOpen = () => {
         setOpen();
@@ -50,26 +50,25 @@ function Folder({name, files, folders, directory} : Props) {
     }, [isOpen])
 
     return(
-                <section className={styles.folder}>                     
-                        <div className={styles.folder_header} onClick={handleOpen}>
-                            <motion.img 
-                                layout
-                                key={name}
-                                className={styles.arrow} 
-                                src={icons['arrow']}
-                                initial={false}
-                                animate={isOpen ? {rotate: '90deg'} : {rotate: '0deg'}}
-                                />
-                            {name}                    
-                        </div>
-                        {(isOpen && (allFolders.length > 0 || allFiles.length > 0)) && <div 
-                            className={styles.folder_content}>   
-                                {<CreateFolder/>}                      
-                                {allFolders}
-                                {allFiles}  
-                        </div>}
-       
-                </section>                  
+        <section className={styles.folder}>                     
+                <div className={styles.folder_header} onClick={handleOpen}>
+                    <motion.img 
+                        layout
+                        key={name}
+                        className={styles.arrow} 
+                        src={icons['arrow']}
+                        initial={false}
+                        animate={isOpen ? {rotate: '90deg'} : {rotate: '0deg'}}
+                        />
+                    {name}                    
+                </div>
+                {(isOpen && (allFolders.length > 0 || allFiles.length > 0)) && 
+                    <div className={styles.folder_content}>                       
+                        {allFolders}
+                        {allFiles}  
+                    </div>}
+                <CreateFolder directory={directory}/>  
+        </section>                  
     )
 }
 

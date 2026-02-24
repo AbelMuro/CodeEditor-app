@@ -31,7 +31,6 @@ body, html{
     --preset-background-color-body: #1F1F1F;
     --preset-background-color-container: rgb(19, 19, 19);
 
-
     --preset-text-color-keyword: #328dd7;
     --preset-text-color-keyword-hover: #1982d8;
     --preset-text-color-keyword-active: #0366b6;
@@ -69,13 +68,13 @@ body, html{
     --preset-text-2-letterspacing: 0px;
 
     --preset-text-3-fontfamily: 'SnPro';
-    --preset-text-3-fontsize: 1.3rem;
+    --preset-text-3-fontsize: 1.5rem;
     --preset-text-3-fontweight: 500;
     --preset-text-3-lineheight: 120%;
     --preset-text-3-letterspacing: 0px;
 
     --preset-text-4-fontfamily: 'SnPro';
-    --preset-text-4-fontsize: 1.5rem;
+    --preset-text-4-fontsize: 1.3rem;
     --preset-text-4-fontweight: 500;
     --preset-text-4-lineheight: 140%;
     --preset-text-4-letterspacing: 0px;  

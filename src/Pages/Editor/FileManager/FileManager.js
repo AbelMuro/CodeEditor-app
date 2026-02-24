@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+import CreateFolder from './Folder/CreateFolder';
 import { useSelector } from 'react-redux';
 import {LayoutGroup, motion} from 'framer-motion';
 import Folder from './Folder';
@@ -26,8 +27,6 @@ import * as styles from './styles.module.css';
 function FileManager() {
     const folders = useSelector(state => state.folderManagement.allFolders.folders);
 
-
-
     return (
         <aside className={styles.files}>
             <div className={styles.files_commands}>
@@ -36,6 +35,7 @@ function FileManager() {
             </div> 
             <LayoutGroup>            
                 <motion.div layout className={styles.folders}> 
+                    <CreateFolder directory={['root']}/> 
                     {
                         folders.map((folder) => {
                             const name = folder.name;

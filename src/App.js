@@ -8,8 +8,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, now that i implemented typescript with redux, i need to import TypedDispatch and TypeSelector to
-    the components utilizing the global store
+    this is where i left off, i almost completed the CreateFolder component, i need to finish it
 */
 
 function App(){

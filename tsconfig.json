@@ -1,7 +1,5 @@
 {
     "compilerOptions": {
-        "allowImportingTsExtensions": true,
-        "noEmit": true,
         "downlevelIteration": true,
         "allowSyntheticDefaultImports": true,
         "outDir": "./dist/",
@@ -13,8 +11,7 @@
         "moduleResolution": "node",
         "baseUrl": "./src",
         "paths": {
-            "~/*": ["*"],
-            "!/*": ["Pages/Home/*"]            //this will resolve to ./src/Pages/Home/*
+            "~/*": ["*"]
         }  
     },
         "include": ["src", "global.d.ts"]
