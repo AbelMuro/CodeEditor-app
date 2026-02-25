@@ -1,10 +1,15 @@
 .form{
+    width: 100%;
     padding: 0px 0px 0px 15px;
     margin: 0px;
     border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .input{
+    width: 100%;
     background-color: transparent;
     color: var(--preset-text-color-operator);
     border: 1px solid var(--preset-text-color-operator);
@@ -17,4 +22,9 @@
 
 .input:focus{
     outline: none;
+}
+
+.arrow{
+    width: 30px;
+    object-fit: contain;
 }

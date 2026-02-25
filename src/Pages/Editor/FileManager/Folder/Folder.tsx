@@ -1,24 +1,26 @@
-import React, { useEffect, useMemo} from 'react';
+import React, { useEffect, useMemo, memo} from 'react';
 import File from './File';
 import CreateFolder from './CreateFolder';
-import {useTypedDispatch} from '~/Store';
+import {useTypedDispatch, useTypedSelector} from '~/Store';
 import {motion, useCycle} from 'framer-motion';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
 type File = {name: string, extension: string, content: string}
-type Folder = {name: string, directory: Array<string>, files: Array<File>, folders: Array<Folder>}
+type Folder = {name: string, id: string, files: Array<File>, folders: Array<Folder>}
 
 type Props = {
     name: string,
+    id: string,
     files: Array<File>,
     folders: Array<Folder>,
-    directory: Array<string>,
 }
 
-function Folder({name, files, folders, directory} : Props) {
+function Folder({name, id, files, folders} : Props) {
     const [isOpen, setOpen] = useCycle(false, true);
     const dispatch = useTypedDispatch();
+    const createNewFolder = useTypedSelector(state => state.folderManagement.creatingFolder);
+    const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
 
     const handleOpen = () => {
         setOpen();
@@ -27,10 +29,10 @@ function Folder({name, files, folders, directory} : Props) {
     const allFolders = useMemo(() => {
         return folders.map((folder) => {
             const name = folder.name;
-            const directory = folder.directory;
+            const id = folder.id;
             const folders = folder.folders;
             const files = folder.files;
-            return (<Folder name={name} directory={directory} folders={folders} files={files}/>)
+            return (<Folder name={name} id={id} folders={folders} files={files}/>)
         }) 
     }, [folders]);
 
@@ -45,7 +47,7 @@ function Folder({name, files, folders, directory} : Props) {
 
     useEffect(() => {
         if(isOpen)
-            dispatch({type: 'CHANGE_DIRECTORY', payload: {directory, name}});
+            dispatch({type: 'CHANGE_CURRENT_FOLDER', payload: {folderId: id}});
         
     }, [isOpen])
 
@@ -67,9 +69,9 @@ function Folder({name, files, folders, directory} : Props) {
                         {allFolders}
                         {allFiles}  
                     </div>}
-                <CreateFolder directory={directory}/>  
+                {(createNewFolder && (id === currentFolderId)) && <CreateFolder/>}  
         </section>                  
     )
 }
 
-export default Folder;
+export default memo(Folder);

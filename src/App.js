@@ -8,7 +8,9 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i almost completed the CreateFolder component, i need to finish it
+    this is where i left off, i finished the folder features for the app
+
+    now i need to start the file feature
 */
 
 function App(){

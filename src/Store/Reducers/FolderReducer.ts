@@ -9,25 +9,25 @@ type File = {
 
 type Folder = {
     name: string,
-    directory: Array<string>,
+    id: string,
     folders: Array<Folder>,
     files: Array<File>
 }
 
 type InitialState = {
-    currentDirectory: Array<string>,
+    currentFolder: string,
     currentFile: File | {},
     creatingFolder: boolean,
     allFolders: Folder
 }
 
 const initialState : InitialState = {
-    currentDirectory: ['root'],
+    currentFolder: 'root',
     currentFile: {},
     creatingFolder: false,
     allFolders: {
         name: 'root',
-        directory: ['root'],
+        id: 'root',
         folders: [],
         files: [],
     }
@@ -35,7 +35,7 @@ const initialState : InitialState = {
 const addFolder = createAction('ADD_FOLDER');
 const addFile = createAction('ADD_FILE');
 const createFolder = createAction('CREATE_FOLDER');
-const changeDirectory = createAction('CHANGE_DIRECTORY');
+const changeCurrentFolder = createAction('CHANGE_CURRENT_FOLDER');
 
 const folderAlreadyExists = (folders: Array<Folder>, folder: Folder) => {
     return folders.some((currFolder) => {
@@ -49,44 +49,46 @@ const fileAlreadyExists = (files : Array<File>, file : File) => {
     })
 }
 
-const traverseFolders = (currFolder : Folder, currDirectory : Array<string>) => {
-    if(currFolder.directory.join('/') === currDirectory.join('/'))
+const traverseFolders = (currFolder : Folder, id: string) => {
+    if(currFolder.id === id)
         return currFolder
     
     for(let i = 0; i < currFolder.folders.length; i++){
         const folder = currFolder.folders[i];
-        return traverseFolders(folder, currDirectory);
+        return traverseFolders(folder, id);
     }
 }
 
 
 const folderReducer = createReducer(initialState, builder => {
     builder 
-        .addCase(addFolder, (state, action: PayloadAction<{name: string}>) => {
+        .addCase(addFolder, (state, action: PayloadAction<{name: string, id: string}>) => {
             const folderName = action.payload.name;
-            const folderDirectory = [...state.currentDirectory, folderName];
+            const folderId = action.payload.id;
+            const currentOpenFolder = state.currentFolder;
             const newFolder : Folder = {
                 name: folderName,
-                directory: folderDirectory,
+                id: folderId,
                 folders: [],
                 files: []
             };
-            const folder = traverseFolders(state.allFolders, state.currentDirectory);
+            const folder = traverseFolders(state.allFolders, currentOpenFolder);
+            console.log(folder.id);
             if(folder && !folderAlreadyExists(folder.folders, newFolder)){
                 folder.folders.push(newFolder)
-                state.currentDirectory = folderDirectory;
+                state.currentFolder = newFolder.id;
             }
-
         })
         .addCase(addFile, (state, action: PayloadAction<{name: string, extension: string}>) => {
             const fileName = action.payload.name;
             const extension = action.payload.extension;
+            const currentFolder = state.currentFolder;
             const newFile : File = {
                 name: fileName,
                 extension,
                 content: ''
             }
-            const folder = traverseFolders(state.allFolders, state.currentDirectory);
+            const folder = traverseFolders(state.allFolders, currentFolder);
             if(folder && !fileAlreadyExists(folder.files, newFile)){
                 folder.files.push(newFile);
                 state.currentFile = newFile;
@@ -95,9 +97,9 @@ const folderReducer = createReducer(initialState, builder => {
         .addCase(createFolder, (state, action : PayloadAction<boolean>) => {
             state.creatingFolder = action.payload;
         })
-        .addCase(changeDirectory, (state, action: PayloadAction<{directory: Array<string>}>) => {
-            const directory = action.payload.directory;
-            state.currentDirectory = directory;
+        .addCase(changeCurrentFolder, (state, action: PayloadAction<{folderId: string}>) => {
+            const folderId = action.payload.folderId;
+            state.currentFolder = folderId;
         })
 });
 
