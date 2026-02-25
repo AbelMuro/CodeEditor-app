@@ -1,0 +1,19 @@
+.form{
+    width: 100%;
+}
+
+.input{
+    width: 100%;
+    background-color: transparent;
+    color: var(--preset-text-color-operator);
+    border: 1px solid var(--preset-text-color-operator);
+    font-family: var(--preset-text-4-fontfamily);
+    font-size: var(--preset-text-4-fontsize);
+    font-weight: var(--preset-text-4-fontweight);
+    line-height: var(--preset-text-4-lineheight);
+    letter-spacing: var(--preset-text-4-letterspacing);
+}
+
+.input:focus{
+    outline: none;
+}

@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, memo} from 'react';
 import File from './File';
 import CreateFolder from './CreateFolder';
+import CreateFile from './CreateFile';
 import {useTypedDispatch, useTypedSelector} from '~/Store';
 import {motion, useCycle} from 'framer-motion';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
-type File = {name: string, extension: string, content: string}
+type File = {name: string, extension: string, content: string, id: string}
 type Folder = {name: string, id: string, files: Array<File>, folders: Array<Folder>}
 
 type Props = {
@@ -21,8 +22,11 @@ function Folder({name, id, files, folders} : Props) {
     const dispatch = useTypedDispatch();
     const createNewFolder = useTypedSelector(state => state.folderManagement.creatingFolder);
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
+    const createNewFile = useTypedSelector(state => state.folderManagement.creatingFile);
+    const selected = useTypedSelector(state => state.folderManagement.selected);
 
     const handleOpen = () => {
+        dispatch({type: 'CHANGE_SELECTED', payload: {id}})
         setOpen();
     }
 
@@ -41,7 +45,8 @@ function Folder({name, id, files, folders} : Props) {
                 const name = file.name;
                 const extension = file.extension;
                 const content = file.content;
-                return (<File name={name} extension={extension} content={content}/>)
+                const id = file.id;
+                return (<File name={name} id={id} extension={extension} content={content}/>)
             })
     }, [files])
 
@@ -53,7 +58,7 @@ function Folder({name, id, files, folders} : Props) {
 
     return(
         <section className={styles.folder}>                     
-                <div className={styles.folder_header} onClick={handleOpen}>
+                <div className={styles.folder_header} onClick={handleOpen} style={selected === id ? {backgroundColor: '#ffffff33'} : {}}>
                     <motion.img 
                         layout
                         key={name}
@@ -70,6 +75,7 @@ function Folder({name, id, files, folders} : Props) {
                         {allFiles}  
                     </div>}
                 {(createNewFolder && (id === currentFolderId)) && <CreateFolder/>}  
+                {(createNewFile && (id === currentFolderId)) && <CreateFile/>}
         </section>                  
     )
 }

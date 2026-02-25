@@ -15,16 +15,20 @@ type Folder = {
 }
 
 type InitialState = {
+    selected: string,
     currentFolder: string,
     currentFile: File | {},
     creatingFolder: boolean,
+    creatingFile: boolean,
     allFolders: Folder
 }
 
 const initialState : InitialState = {
+    selected: '',
     currentFolder: 'root',
     currentFile: {},
     creatingFolder: false,
+    creatingFile: false,
     allFolders: {
         name: 'root',
         id: 'root',
@@ -35,18 +39,20 @@ const initialState : InitialState = {
 const addFolder = createAction('ADD_FOLDER');
 const addFile = createAction('ADD_FILE');
 const createFolder = createAction('CREATE_FOLDER');
+const createFile = createAction('CREATE_FILE');
 const changeCurrentFolder = createAction('CHANGE_CURRENT_FOLDER');
+const changeSelected = createAction('CHANGE_SELECTED');
 
 const folderAlreadyExists = (folders: Array<Folder>, folder: Folder) => {
     return folders.some((currFolder) => {
         return currFolder.name === folder.name;
-    })
-}
+    });
+};
 
 const fileAlreadyExists = (files : Array<File>, file : File) => {
     return files.some((currFile) => {
         return currFile.name === file.name;
-    })
+    });
 }
 
 const traverseFolders = (currFolder : Folder, id: string) => {
@@ -73,15 +79,15 @@ const folderReducer = createReducer(initialState, builder => {
                 files: []
             };
             const folder = traverseFolders(state.allFolders, currentOpenFolder);
-            console.log(folder.id);
             if(folder && !folderAlreadyExists(folder.folders, newFolder)){
                 folder.folders.push(newFolder)
                 state.currentFolder = newFolder.id;
             }
         })
-        .addCase(addFile, (state, action: PayloadAction<{name: string, extension: string}>) => {
-            const fileName = action.payload.name;
-            const extension = action.payload.extension;
+        .addCase(addFile, (state, action: PayloadAction<{name: string}>) => {
+            const temp = action.payload.name.split('.');
+            const fileName = temp[0];
+            const extension = temp[1] || 'txt';
             const currentFolder = state.currentFolder;
             const newFile : File = {
                 name: fileName,
@@ -94,12 +100,18 @@ const folderReducer = createReducer(initialState, builder => {
                 state.currentFile = newFile;
             }
         })
+        .addCase(createFile, (state, action: PayloadAction<boolean>) => {
+            state.creatingFile = action.payload;
+        })
         .addCase(createFolder, (state, action : PayloadAction<boolean>) => {
             state.creatingFolder = action.payload;
         })
         .addCase(changeCurrentFolder, (state, action: PayloadAction<{folderId: string}>) => {
             const folderId = action.payload.folderId;
             state.currentFolder = folderId;
+        })
+        .addCase(changeSelected, (state, action: PayloadAction<{id: string}>) => {
+            state.selected = action.payload.id
         })
 });
 

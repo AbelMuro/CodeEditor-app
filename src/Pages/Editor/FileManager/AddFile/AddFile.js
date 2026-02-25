@@ -7,7 +7,7 @@ function AddFile() {
     const dispatch = useTypedDispatch();
 
     const handleFile = () => {
-        dispatch({type: 'ADD_FILE', payload: {name: 'newFile', extension: 'js', content: ''}})
+        dispatch({type: 'CREATE_FILE', payload: true})
     }
 
     return(
