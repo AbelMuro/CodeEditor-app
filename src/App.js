@@ -8,9 +8,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i finished the folder features for the app
-
-    now i need to start the file feature
+    this is where i left off, i need to test out the select feature for the app
 */
 
 function App(){
