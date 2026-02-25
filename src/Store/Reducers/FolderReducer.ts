@@ -5,6 +5,7 @@ type File = {
     name: string,
     extension: string,
     content: string,
+    id: string
 }
 
 type Folder = {
@@ -84,14 +85,16 @@ const folderReducer = createReducer(initialState, builder => {
                 state.currentFolder = newFolder.id;
             }
         })
-        .addCase(addFile, (state, action: PayloadAction<{name: string}>) => {
+        .addCase(addFile, (state, action: PayloadAction<{name: string, id: string}>) => {
             const temp = action.payload.name.split('.');
             const fileName = temp[0];
             const extension = temp[1] || 'txt';
+            const id = action.payload.id;
             const currentFolder = state.currentFolder;
             const newFile : File = {
                 name: fileName,
                 extension,
+                id,
                 content: ''
             }
             const folder = traverseFolders(state.allFolders, currentFolder);

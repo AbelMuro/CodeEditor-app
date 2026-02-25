@@ -28,7 +28,7 @@ function CreateFile() {
 
     const handleBlur = () => {
         if(!name) 
-            dispatch({type: 'CREATE_FOLDER', payload: false})
+            dispatch({type: 'CREATE_FILE', payload: false})
         else{
             dispatch({type: 'ADD_FILE', payload: {name, id: uuid()}})
             dispatch({type: 'CREATE_FILE', payload: false})
