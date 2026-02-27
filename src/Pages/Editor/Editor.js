@@ -1,4 +1,5 @@
 import React from 'react';
+import Form from './Form';
 import FileManager from './FileManager';
 import * as styles from './styles.module.css';
 
@@ -6,10 +7,7 @@ function Editor() {
     return(
         <section className={styles.container}>
             <FileManager/>
-
-            <form className={styles.form}>
-
-            </form>
+            <Form/>
         </section>
     )
 }

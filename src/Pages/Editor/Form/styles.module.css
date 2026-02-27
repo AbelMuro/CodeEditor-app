@@ -1,0 +1,23 @@
+.form{
+    width: 100%;
+    height: calc(100vh - 80px);
+}
+
+.textarea{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 25px;
+    color: var(--preset-text-color-operator);
+    font-family: var(--preset-text-3-fontfamily);
+    font-size: var(--preset-text-3-fontsize);
+    font-weight: var(--preset-text-3-fontweight);
+    line-height: var(--preset-text-3-lineheight);
+    letter-spacing: var(--preset-text-3-letterspacing);
+    resize: none;
+}
+
+.textarea:focus{
+    outline: none;
+}

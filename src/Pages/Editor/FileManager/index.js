@@ -1,3 +1,3 @@
-import FileManager from "./FileManager.js";
+import FileManager from "./FileManager.tsx";
 
 export default FileManager;

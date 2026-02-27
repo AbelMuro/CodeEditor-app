@@ -25,6 +25,9 @@
     transition: all 0s;
 }
 
+.add_content{
+    padding-left: 15px;
+}
 
 .arrow{
     width: 30px;

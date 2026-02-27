@@ -8,7 +8,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i need to test out the select feature for the app
+    this is where i left off, i am working on the tab feature for the Code Editor
 */
 
 function App(){

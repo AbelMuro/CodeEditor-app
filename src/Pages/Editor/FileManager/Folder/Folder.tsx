@@ -69,13 +69,25 @@ function Folder({name, id, files, folders} : Props) {
                         />
                     {name}                    
                 </div>
-                {(isOpen && (allFolders.length > 0 || allFiles.length > 0)) && 
-                    <div className={styles.folder_content}>                       
-                        {allFolders}
-                        {allFiles}  
-                    </div>}
-                {(createNewFolder && (id === currentFolderId)) && <CreateFolder/>}  
-                {(createNewFile && (id === currentFolderId)) && <CreateFile/>}
+                {
+                    (isOpen && (allFolders.length > 0 || allFiles.length > 0)) && 
+                        <div className={styles.folder_content}>                       
+                            {allFolders}
+                            {allFiles}  
+                        </div>
+                }
+                {
+                    (createNewFolder && (id === currentFolderId)) &&
+                        <div className={styles.add_content}>
+                            <CreateFolder/>
+                        </div>
+                }
+                {
+                    (createNewFile && (id === currentFolderId)) &&
+                        <div className={styles.add_content}>
+                            <CreateFile/>
+                        </div>
+                }   
         </section>                  
     )
 }
