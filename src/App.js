@@ -8,7 +8,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am working on the tab feature for the Code Editor
+    this is where i left off, i am working on the highlight feature in the form component
 */
 
 function App(){

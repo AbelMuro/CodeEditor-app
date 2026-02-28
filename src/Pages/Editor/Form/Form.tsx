@@ -3,7 +3,23 @@ import * as styles from './styles.module.css';
 
 function Form(){
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const highlightRef = useRef<HTMLDivElement>(null)
     const [code, setCode] = useState<string>('');
+
+    const handleHighlight = () => {
+        const words = code.split(' ');
+
+        return words.map((word) => {
+            if(word === 'function')
+                return (
+                    <span className={styles.keyword}>
+                        function
+                    </span>
+                )
+            else
+                return word;
+        })
+    }
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const input = e.target.value;
@@ -20,15 +36,14 @@ function Form(){
         const lines = code.split('\n');
         const startLine = code.slice(0, selectionStart).split('\n').length - 1; 
         const endLine = code.slice(0, selectionEnd).split('\n').length - 1;
-        const tab = '    ';
+        const tab = '\t';
 
         for(let i = startLine; i <= endLine; i++){
-            lines[i] = '\t' + lines[i];
+            lines[i] = tab + lines[i];
         }
 
         setCode(lines.join('\n'));
-        textareaRef.current.selectionStart = selectionStart + 1; 
-        textareaRef.current.selectionEnd = selectionEnd + (endLine - startLine + 1);
+        textareaRef.current.selectionStart = selectionEnd - 3; 
     }
 
     useEffect(() => {
@@ -40,14 +55,17 @@ function Form(){
     }, [code])
 
     return(
-        <form className={styles.form}>
+        <div className={styles.editor}>
             <textarea 
                 className={styles.textarea}
                 value={code}
                 onChange={handleChange}
                 ref={textareaRef}
                 />
-        </form>
+                <div className={styles.highlight_layer} ref={highlightRef}>
+                    {handleHighlight()}
+                </div>
+        </div>
     )
 }
 
