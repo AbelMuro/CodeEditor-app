@@ -20,9 +20,9 @@ type Props = {
 function Folder({name, id, files, folders} : Props) {
     const [isOpen, setOpen] = useCycle(false, true);
     const dispatch = useTypedDispatch();
-    const createNewFolder = useTypedSelector(state => state.folderManagement.creatingFolder);
+    const displayFolderInput = useTypedSelector(state => state.folderManagement.displayFolderInput);
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
-    const createNewFile = useTypedSelector(state => state.folderManagement.creatingFile);
+    const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
     const selected = useTypedSelector(state => state.folderManagement.selected);
 
     const handleOpen = () => {
@@ -77,13 +77,13 @@ function Folder({name, id, files, folders} : Props) {
                         </div>
                 }
                 {
-                    (createNewFolder && (id === currentFolderId)) &&
+                    (displayFolderInput&& (id === currentFolderId)) &&
                         <div className={styles.add_content}>
                             <CreateFolder/>
                         </div>
                 }
                 {
-                    (createNewFile && (id === currentFolderId)) &&
+                    (displayFileInput && (id === currentFolderId)) &&
                         <div className={styles.add_content}>
                             <CreateFile/>
                         </div>

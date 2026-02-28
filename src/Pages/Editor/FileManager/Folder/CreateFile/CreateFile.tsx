@@ -8,12 +8,20 @@ function CreateFile() {
     const inputRef = useRef<HTMLInputElement>(null);
     const [name, setName] = useState<string>('');
 
+    const checkExtension = () => {
+        const ext = name.split('.')[1];
+
+        if(!ext || (!ext.includes('txt') && !ext.includes('js'))){
+            dispatch({type: 'DISPLAY_FILE_INPUT', payload: false});
+        }
+    }
+
     const handleKey = (e: KeyboardEvent) => {
         const keyPressed = e.key;
 
         if(keyPressed === 'Enter'){
             dispatch({type: 'ADD_FILE', payload: {name, id: uuid()}})
-            dispatch({type: 'CREATE_FILE', payload: false})
+            dispatch({type: 'DISPLAY_FILE_INPUT', payload: false})
         }
     }
 
@@ -28,10 +36,10 @@ function CreateFile() {
 
     const handleBlur = () => {
         if(!name) 
-            dispatch({type: 'CREATE_FILE', payload: false})
+            dispatch({type: 'DISPLAY_FILE_INPUT', payload: false})
         else{
             dispatch({type: 'ADD_FILE', payload: {name, id: uuid()}})
-            dispatch({type: 'CREATE_FILE', payload: false})
+            dispatch({type: 'DISPLAY_FILE_INPUT', payload: false})
         }
     }
 

@@ -4,15 +4,15 @@ import CreateFile from './Folder/CreateFile';
 import { useTypedSelector, useTypedDispatch } from '~/Store';
 import Folder from './Folder';
 import File from './Folder/File';
-import AddFile from './AddFile';
-import AddFolder from './AddFolder';
+import AddFileButton from './AddFileButton';
+import AddFolderButton from './AddFolderButton';
 import * as styles from './styles.module.css';
 
 function FileManager() {
     const folders = useTypedSelector(state => state.folderManagement.allFolders.folders);
     const files = useTypedSelector(state => state.folderManagement.allFolders.files);
-    const createNewFolder = useTypedSelector(state => state.folderManagement.creatingFolder);
-    const createNewFile = useTypedSelector(state => state.folderManagement.creatingFile);
+    const displayFolderInput = useTypedSelector(state => state.folderManagement.displayFolderInput);
+    const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
     const dispatch = useTypedDispatch();
     const foldersRef = useRef<HTMLDivElement>(null);
@@ -38,12 +38,12 @@ function FileManager() {
     return (
         <aside className={styles.files}>
             <div className={styles.files_commands}>
-                <AddFile/>
-                <AddFolder/>
+                <AddFileButton/>
+                <AddFolderButton/>
             </div>          
             <div className={styles.folders} ref={foldersRef}> 
-                {(createNewFolder && ('root' === currentFolderId)) && <CreateFolder/>} 
-                {(createNewFile && ('root' === currentFolderId)) && <CreateFile/>} 
+                {(displayFolderInput && ('root' === currentFolderId)) && <CreateFolder/>} 
+                {(displayFileInput && ('root' === currentFolderId)) && <CreateFile/>} 
                 {
                     folders.map((folder) => {
                         const name = folder.name;

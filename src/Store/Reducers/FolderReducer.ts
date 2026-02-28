@@ -18,18 +18,18 @@ type Folder = {
 type InitialState = {
     selected: string,
     currentFolder: string,
-    currentFile: File | {},
-    creatingFolder: boolean,
-    creatingFile: boolean,
+    currentFile: File | null,
+    displayFolderInput: boolean,
+    displayFileInput: boolean,
     allFolders: Folder
 }
 
 const initialState : InitialState = {
     selected: '',
     currentFolder: 'root',
-    currentFile: {},
-    creatingFolder: false,
-    creatingFile: false,
+    currentFile: null,
+    displayFolderInput: false,
+    displayFileInput: false,
     allFolders: {
         name: 'root',
         id: 'root',
@@ -39,8 +39,9 @@ const initialState : InitialState = {
 }
 const addFolder = createAction('ADD_FOLDER');
 const addFile = createAction('ADD_FILE');
-const createFolder = createAction('CREATE_FOLDER');
-const createFile = createAction('CREATE_FILE');
+const displayFolderInput = createAction('DISPLAY_FOLDER_INPUT');
+const displayFileInput = createAction('DISPLAY_FILE_INPUT');
+const updateFileContent = createAction('UPDATE_FILE_CONTENT');
 const changeCurrentFolder = createAction('CHANGE_CURRENT_FOLDER');
 const changeSelected = createAction('CHANGE_SELECTED');
 
@@ -103,11 +104,11 @@ const folderReducer = createReducer(initialState, builder => {
                 state.currentFile = newFile;
             }
         })
-        .addCase(createFile, (state, action: PayloadAction<boolean>) => {
-            state.creatingFile = action.payload;
+        .addCase(displayFileInput, (state, action: PayloadAction<boolean>) => {
+            state.displayFileInput = action.payload;
         })
-        .addCase(createFolder, (state, action : PayloadAction<boolean>) => {
-            state.creatingFolder = action.payload;
+        .addCase(displayFolderInput, (state, action : PayloadAction<boolean>) => {
+            state.displayFolderInput = action.payload;
         })
         .addCase(changeCurrentFolder, (state, action: PayloadAction<{folderId: string}>) => {
             const folderId = action.payload.folderId;
@@ -115,6 +116,9 @@ const folderReducer = createReducer(initialState, builder => {
         })
         .addCase(changeSelected, (state, action: PayloadAction<{id: string}>) => {
             state.selected = action.payload.id
+        })
+        .addCase(updateFileContent, (state, action: PayloadAction<{content: string}>) => {
+            state.currentFile.content = action.payload.content
         })
 });
 

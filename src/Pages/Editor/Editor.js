@@ -1,13 +1,16 @@
 import React from 'react';
-import Form from './Form';
+import {useTypedSelector} from '~/Store'
+import TextArea from './TextArea';
 import FileManager from './FileManager';
 import * as styles from './styles.module.css';
 
 function Editor() {
+    const currentFile = useTypedSelector(state => state.folderManagement.currentFile);
+
     return(
         <section className={styles.container}>
             <FileManager/>
-            <Form/>
+            {currentFile && <TextArea file={currentFile}/>}
         </section>
     )
 }

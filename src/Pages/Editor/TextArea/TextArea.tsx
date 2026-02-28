@@ -1,25 +1,22 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
+import { useTypedDispatch} from '~/Store';
+import HighlightSyntax from './HighlightSyntax';
 import * as styles from './styles.module.css';
 
-function Form(){
+type File = {
+    name : string,
+    extension: string,
+    content: string,
+}
+
+type Props = {
+    file: File | null
+}
+
+function TextArea({file} : Props){
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const highlightRef = useRef<HTMLDivElement>(null)
-    const [code, setCode] = useState<string>('');
-
-    const handleHighlight = () => {
-        const words = code.split(' ');
-
-        return words.map((word) => {
-            if(word === 'function')
-                return (
-                    <span className={styles.keyword}>
-                        function
-                    </span>
-                )
-            else
-                return word;
-        })
-    }
+    const [code, setCode] = useState<string>(file.content);
+    const dispatch = useTypedDispatch();
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const input = e.target.value;
@@ -54,19 +51,31 @@ function Form(){
         }
     }, [code])
 
+    useEffect(() => {
+        dispatch({
+            type: 'UPDATE_FILE_CONTENT',
+            payload: {content: code}
+        })
+    }, [code])
+
     return(
         <div className={styles.editor}>
+            <div className={styles.line_numbers}>
+                {
+                    code.split('\n').map((_, i) => {
+                        return <span> {i + 1}</span>;
+                    })  
+                }
+            </div>
             <textarea 
                 className={styles.textarea}
                 value={code}
                 onChange={handleChange}
                 ref={textareaRef}
                 />
-                <div className={styles.highlight_layer} ref={highlightRef}>
-                    {handleHighlight()}
-                </div>
+            <HighlightSyntax code={code}/>
         </div>
     )
 }
 
-export default Form;
+export default TextArea;

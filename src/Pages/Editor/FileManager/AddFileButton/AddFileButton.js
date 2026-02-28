@@ -3,11 +3,12 @@ import { useTypedDispatch } from '~/Store';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
-function AddFile() {
+function AddFileButton() {
     const dispatch = useTypedDispatch();
 
     const handleFile = () => {
-        dispatch({type: 'CREATE_FILE', payload: true})
+        dispatch({type: 'DISPLAY_FILE_INPUT', payload: true})
+        dispatch({type: 'DISPLAY_FOLDER_INPUT', payload: false});
     }
 
     return(
@@ -17,4 +18,4 @@ function AddFile() {
     )
 }
 
-export default AddFile;
+export default AddFileButton;
