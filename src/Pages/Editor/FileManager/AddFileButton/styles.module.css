@@ -1,22 +1,42 @@
 
-.files_commands_add_file{
+.add_file{
     width: 60px;
     height: 60px;
     background-color: transparent;
     border: none;
     cursor: pointer;
     border-radius: 15px;
+    position: relative;
 }
 
-.files_commands_add_file:hover{
+.add_file:hover:after{
+    width: 110px;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: rgb(78, 78, 78);
+    content: 'Create new file';
+    position: absolute;
+    top: -10px;
+    left: 60%;
+    color: white;
+    font-family: var(--preset-text-5-fontfamily);
+    font-size: var(--preset-text-5-fontsize);
+    font-weight: var(--preset-text-5-fontweight);
+    line-height: var(--preset-text-5-lineheight);
+    letter-spacing: var(--preset-text-5-lineheight);
+}
+
+
+.add_file:hover{
     background-color: #393939;
 }
 
-.files_commands_add_file:active{
+
+.add_file:active{
     background-color: #4e4e4e;
 }   
 
-.files_commands_add_file > img{
+.add_file > img{
     width: 40px;
     object-fit: contain;
 }

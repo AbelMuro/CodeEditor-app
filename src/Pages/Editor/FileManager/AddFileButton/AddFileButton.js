@@ -12,7 +12,7 @@ function AddFileButton() {
     }
 
     return(
-        <button className={styles.files_commands_add_file} onClick={handleFile}>
+        <button className={styles.add_file} onClick={handleFile}>
             <img src={icons['addFile']}/>
         </button>
     )

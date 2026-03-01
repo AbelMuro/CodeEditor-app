@@ -9,9 +9,9 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i finished implementing the HighLightSyntax component
+    this is where i left off, i am working on the NoFileMessage for the FileManager component
 
-    now i want to work on the tab functionality a bit more
+    i also want to implement the resize feature for the folder manager
 */
 
 function App(){

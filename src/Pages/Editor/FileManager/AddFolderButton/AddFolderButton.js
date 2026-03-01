@@ -14,7 +14,7 @@ function AddFolderButton() {
     return(
         <button 
             onClick={handleFolder}
-            className={styles.files_commands_add_folder}>
+            className={styles.add_folder}>
                 <img src={icons['addFolder']}/>
         </button>
     )

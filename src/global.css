@@ -78,4 +78,10 @@ body, html{
     --preset-text-4-fontweight: 500;
     --preset-text-4-lineheight: 140%;
     --preset-text-4-letterspacing: 0px;  
+
+    --preset-text-5-fontfamily: 'SnPro';
+    --preset-text-5-fontsize: 0.8rem;
+    --preset-text-5-fontweight: 500;
+    --preset-text-5-lineheight: 100%;
+    --preset-text-5-letterspacing: 0px;  
 }

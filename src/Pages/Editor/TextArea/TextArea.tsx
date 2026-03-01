@@ -23,6 +23,29 @@ function TextArea({file} : Props){
         setCode(input);
     }
 
+    const handleKeyboard = (e : KeyboardEvent) => {
+        handleTab(e);
+        handleEnter(e);
+    }
+
+    const handleEnter = (e: KeyboardEvent) => {
+        const keyPressed = e.key;
+
+        if(keyPressed !== 'Enter') return;
+        e.preventDefault();
+        const lines : Array<string> = code.split('\n');
+        const lastLine : Array<string> = lines[lines.length - 1].split('');
+        let indent = '\n';
+
+        for(let i = 0; i < lastLine.length; i++){
+            if(lastLine[i] === ' ' || lastLine[i] === '\t')
+                indent += lastLine[i];
+            else
+                break;
+        }
+        setCode(code + indent);
+    }
+
     const handleTab = (e: KeyboardEvent) => {
         const keyPressed = e.key;
 
@@ -30,24 +53,24 @@ function TextArea({file} : Props){
         e.preventDefault();
         const {selectionStart, selectionEnd} = textareaRef.current;
 
-        const lines = code.split('\n');
-        const startLine = code.slice(0, selectionStart).split('\n').length - 1; 
-        const endLine = code.slice(0, selectionEnd).split('\n').length - 1;
+        let textBeforeTab : string= code.slice(0, selectionStart);
+        let linesToTab : string | Array<string> = code.slice(selectionStart, selectionEnd).split('\n');
+        let textAfterTab : string = code.slice(selectionEnd, code.length);
         const tab = '\t';
 
-        for(let i = startLine; i <= endLine; i++){
-            lines[i] = tab + lines[i];
-        }
+        linesToTab = linesToTab.map((line) => {
+            return tab + line;
+        }).join('\n');  
 
-        setCode(lines.join('\n'));
+        setCode(textBeforeTab + linesToTab + textAfterTab);
         textareaRef.current.selectionStart = selectionEnd - 3; 
     }
 
     useEffect(() => {
-        textareaRef.current.addEventListener('keydown', handleTab);
+        textareaRef.current.addEventListener('keydown', handleKeyboard);
 
         return () => {
-            textareaRef.current.removeEventListener('keydown', handleTab);
+            textareaRef.current.removeEventListener('keydown', handleKeyboard);
         }
     }, [code])
 

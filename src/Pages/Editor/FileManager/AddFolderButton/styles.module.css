@@ -1,22 +1,39 @@
-
-.files_commands_add_folder{
+.add_folder{
     width: 60px;
     height: 60px;
     background-color: transparent;
     border: none;
     cursor: pointer;
+    position: relative;
     border-radius: 15px;
 }
 
-.files_commands_add_folder > img{
-    width: 40px;
+.add_folder:hover:after{
+    width: 120px;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: rgb(78, 78, 78);
+    content: 'Create new folder';
+    position: absolute;
+    top: -10px;
+    left: 60%;
+    color: white;
+    font-family: var(--preset-text-5-fontfamily);
+    font-size: var(--preset-text-5-fontsize);
+    font-weight: var(--preset-text-5-fontweight);
+    line-height: var(--preset-text-5-lineheight);
+    letter-spacing: var(--preset-text-5-lineheight);
+}
+
+.add_folder > img{
+    width: 45px;
     object-fit: contain;
 }
 
-.files_commands_add_folder:hover{
+.add_folder:hover{
     background-color: #393939;
 }
 
-.files_commands_add_folder:active{
+.add_folder:active{
     background-color: #4e4e4e;
 }   

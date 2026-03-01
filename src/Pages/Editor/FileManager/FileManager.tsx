@@ -6,6 +6,7 @@ import Folder from './Folder';
 import File from './Folder/File';
 import AddFileButton from './AddFileButton';
 import AddFolderButton from './AddFolderButton';
+import NoFileMessage from './NoFileMessage';
 import * as styles from './styles.module.css';
 
 function FileManager() {
