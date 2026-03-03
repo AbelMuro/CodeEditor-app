@@ -8,15 +8,8 @@ function CreateFile() {
     const inputRef = useRef<HTMLInputElement>(null);
     const [name, setName] = useState<string>('');
 
-    const checkExtension = () => {
-        const ext = name.split('.')[1];
-
-        if(!ext || (!ext.includes('txt') && !ext.includes('js'))){
-            dispatch({type: 'DISPLAY_FILE_INPUT', payload: false});
-        }
-    }
-
     const handleKey = (e: KeyboardEvent) => {
+        if(!name) return dispatch({type: 'CREATE_FILE', payload: false})
         const keyPressed = e.key;
 
         if(keyPressed === 'Enter'){

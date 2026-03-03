@@ -6,7 +6,6 @@ import Folder from './Folder';
 import File from './Folder/File';
 import AddFileButton from './AddFileButton';
 import AddFolderButton from './AddFolderButton';
-import NoFileMessage from './NoFileMessage';
 import * as styles from './styles.module.css';
 
 function FileManager() {
@@ -16,7 +15,6 @@ function FileManager() {
     const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
     const dispatch = useTypedDispatch();
-    const foldersRef = useRef<HTMLDivElement>(null);
 
     const handleClick = (e: MouseEvent) => {
         const element = e.target as HTMLElement;
@@ -37,36 +35,36 @@ function FileManager() {
     }, [])
 
     return (
-        <aside className={styles.files}>
-            <div className={styles.files_commands}>
-                <AddFileButton/>
-                <AddFolderButton/>
-            </div>          
-            <div className={styles.folders} ref={foldersRef}> 
-                {(displayFolderInput && ('root' === currentFolderId)) && <CreateFolder/>} 
-                {(displayFileInput && ('root' === currentFolderId)) && <CreateFile/>} 
-                {
-                    folders.map((folder) => {
-                        const name = folder.name;
-                        const id = folder.id;
-                        const files = folder.files;
-                        const folders = folder.folders;
-        
-                        return <Folder name={name} id={id} files={files} folders={folders}/>
-                    })
-                }
-                {
-                    files.map((file) => {
-                        const name = file.name;
-                        const id = file.id;
-                        const extension = file.extension;
-                        const content = file.content;
+            <section className={styles.files}>
+                <div className={styles.files_commands}>
+                    <AddFileButton/>
+                    <AddFolderButton/>
+                </div>          
+                <div className={styles.folders}> 
+                    {(displayFolderInput && ('root' === currentFolderId)) ? <CreateFolder/> : <></>} 
+                    {(displayFileInput && ('root' === currentFolderId)) ? <CreateFile/> : <></>} 
+                        {
+                            folders.map((folder) => {
+                                const name = folder.name;
+                                const id = folder.id;
+                                const files = folder.files;
+                                const folders = folder.folders;
+                
+                                return <Folder name={name} id={id} files={files} folders={folders}/>
+                            })
+                        }
+                        {
+                            files.map((file) => {
+                                const name = file.name;
+                                const id = file.id;
+                                const extension = file.extension;
+                                const content = file.content;
 
-                        return <File name={name} id={id} extension={extension} content={content}/>
-                    })
-                }
-            </div>
-        </aside>
+                                return <File name={name} id={id} extension={extension} content={content}/>
+                            })
+                        }                
+                </div>                
+            </section>
     )
 }
 

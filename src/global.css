@@ -20,6 +20,20 @@ body, html{
     background-size: contain;
 }
 
+.gutter {
+    width: 60px;
+    height: 100%;
+    background-color: var(--preset-background-color-container);                
+    background-repeat: no-repeat;
+    background-position: 50%;
+    cursor: col-resize;
+    flex-shrink: 0;
+}
+
+.gutter.gutter-horizontal {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+}
+
 *{
     --first-layer: 100;
     --second-layer: 75;
@@ -28,8 +42,10 @@ body, html{
     --fifth-layer: 5;
     --last-layer: -1;
     
+    
     --preset-background-color-body: #1F1F1F;
     --preset-background-color-container: rgb(19, 19, 19);
+    --preset-background-color-gutter: #1F1F1F;
 
     --preset-text-color-keyword: #328dd7;
     --preset-text-color-keyword-hover: #1982d8;

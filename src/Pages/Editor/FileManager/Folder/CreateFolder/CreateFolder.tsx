@@ -10,6 +10,7 @@ function CreateFolder() {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleKey = (e: KeyboardEvent) => {
+        if(!name) return dispatch({type: 'CREATE_FOLDER', payload: false})
         const keyPressed = e.key;
 
         if(keyPressed === 'Enter'){
@@ -58,7 +59,6 @@ function CreateFolder() {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 ref={inputRef}
-                required
                 />
         </form>
     )
