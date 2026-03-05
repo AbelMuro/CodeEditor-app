@@ -33,9 +33,13 @@ function TextArea({file} : Props){
 
         if(keyPressed !== 'Enter') return;
         e.preventDefault();
+
+        const {selectionEnd} = textareaRef.current;
+        const newCode = code.split('');
+        newCode.splice(selectionEnd, 0, '\n')
         const lines : Array<string> = code.split('\n');
         const lastLine : Array<string> = lines[lines.length - 1].split('');
-        let indent = '\n';
+        let indent = '';
 
         for(let i = 0; i < lastLine.length; i++){
             if(lastLine[i] === ' ' || lastLine[i] === '\t')
@@ -43,7 +47,8 @@ function TextArea({file} : Props){
             else
                 break;
         }
-        setCode(code + indent);
+        newCode.splice(selectionEnd, 0, indent);
+        setCode(newCode.join(''));
     }
 
     const handleTab = (e: KeyboardEvent) => {
@@ -53,17 +58,17 @@ function TextArea({file} : Props){
         e.preventDefault();
         const {selectionStart, selectionEnd} = textareaRef.current;
 
-        let textBeforeTab : string= code.slice(0, selectionStart);
+        let textBeforeTab : string = code.slice(0, selectionStart);
         let linesToTab : string | Array<string> = code.slice(selectionStart, selectionEnd).split('\n');
         let textAfterTab : string = code.slice(selectionEnd, code.length);
-        const tab = '\t';
+        const tab = '    ';
 
         linesToTab = linesToTab.map((line) => {
             return tab + line;
         }).join('\n');  
 
         setCode(textBeforeTab + linesToTab + textAfterTab);
-        textareaRef.current.selectionStart = selectionEnd - 3; 
+        textareaRef.current.setSelectionRange(selectionEnd, selectionEnd);
     }
 
     useEffect(() => {

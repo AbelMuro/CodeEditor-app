@@ -10,12 +10,13 @@ function CreateFolder() {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleKey = (e: KeyboardEvent) => {
-        if(!name) return dispatch({type: 'CREATE_FOLDER', payload: false})
         const keyPressed = e.key;
 
         if(keyPressed === 'Enter'){
+            if(!name) return dispatch({type: 'DISPLAY_FOLDER_INPUT', payload: false});    
+
             dispatch({type: 'ADD_FOLDER', payload: {name, id: uuid()}})
-            dispatch({type: 'CREATE_FOLDER', payload: false})
+            dispatch({type: 'DISPLAY_FOLDER_INPUT', payload: false})
         }
     }
 
@@ -30,10 +31,10 @@ function CreateFolder() {
 
     const handleBlur = () => {
         if(!name) 
-            dispatch({type: 'CREATE_FOLDER', payload: false})
+            dispatch({type: 'DISPLAY_FOLDER_INPUT', payload: false})
         else{
             dispatch({type: 'ADD_FOLDER', payload: {name, id: uuid()}})
-            dispatch({type: 'CREATE_FOLDER', payload: false})
+            dispatch({type: 'DISPLAY_FOLDER_INPUT', payload: false})
         }
     }
 

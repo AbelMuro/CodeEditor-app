@@ -10,6 +10,7 @@
     border: none;
     padding: 25px 25px 25px 45px;
     color: transparent;
+    background-color: transparent;
     caret-color: var(--preset-text-color-operator);
     font-family: var(--preset-text-3-fontfamily);
     font-size: var(--preset-text-3-fontsize);

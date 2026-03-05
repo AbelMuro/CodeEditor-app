@@ -11,7 +11,8 @@ function Editor() {
 
     return(
         <Split 
-            sizes={[107, 70]} 
+            sizes={[30, 70]} 
+            minSize={[10, 10]}
             gutterSize={10} 
             cursor="col-resize"
             direction='horizontal'

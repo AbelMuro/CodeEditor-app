@@ -9,10 +9,10 @@ function CreateFile() {
     const [name, setName] = useState<string>('');
 
     const handleKey = (e: KeyboardEvent) => {
-        if(!name) return dispatch({type: 'CREATE_FILE', payload: false})
         const keyPressed = e.key;
 
         if(keyPressed === 'Enter'){
+            if(!name) return dispatch({type: 'DISPLAY_FILE_INPUT', payload: false})
             dispatch({type: 'ADD_FILE', payload: {name, id: uuid()}})
             dispatch({type: 'DISPLAY_FILE_INPUT', payload: false})
         }

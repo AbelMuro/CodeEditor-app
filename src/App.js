@@ -9,9 +9,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am working on the NoFileMessage for the FileManager component
-
-    i also want to implement the resize feature for the folder manager
+    this is where i left off, i need to fix the cursor position for the text area
 */
 
 function App(){

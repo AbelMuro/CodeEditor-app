@@ -5,6 +5,7 @@
     background-color: var(--preset-background-color-container);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .files_commands{
