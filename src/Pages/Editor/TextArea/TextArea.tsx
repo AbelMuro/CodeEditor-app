@@ -28,28 +28,43 @@ function TextArea({file} : Props){
         handleEnter(e);
     }
 
-    const handleEnter = (e: KeyboardEvent) => {
-        const keyPressed = e.key;
+    const handleEnter = (e : KeyboardEvent) => {
+        const pressedKey = e.key;
 
-        if(keyPressed !== 'Enter') return;
+        if(pressedKey !== 'Enter') return;
         e.preventDefault();
-
-        const {selectionEnd} = textareaRef.current;
-        const newCode = code.split('');
-        newCode.splice(selectionEnd, 0, '\n')
-        const lines : Array<string> = code.split('\n');
-        const lastLine : Array<string> = lines[lines.length - 1].split('');
+        const {selectionStart, selectionEnd} = textareaRef.current;
+        let lineBefore = '';
         let indent = '';
 
-        for(let i = 0; i < lastLine.length; i++){
-            if(lastLine[i] === ' ' || lastLine[i] === '\t')
-                indent += lastLine[i];
+        for(let i = selectionStart; i >= 0; i--){
+            if(code[i] === '\n'){
+                console.log(selectionStart, i);
+                lineBefore = code.slice(i + 1, selectionStart + 2);
+                break;
+            }
+        }
+        console.log(lineBefore);
+
+        for(let i = 0; i < lineBefore.length; i++){
+            if(lineBefore[i] === ' ' || lineBefore[i] === '\t')
+                indent += lineBefore[i];
             else
                 break;
         }
-        newCode.splice(selectionEnd, 0, indent);
+
+
+        let newCode : string | Array<string> = code.split('');
+        newCode.splice(selectionEnd, 0, `\n${indent}`);
+        const newStart : number = selectionEnd + indent.length + 1;
+
         setCode(newCode.join(''));
+
+        requestAnimationFrame(() => {
+            textareaRef.current.setSelectionRange(newStart, newStart);
+        })
     }
+
 
     const handleTab = (e: KeyboardEvent) => {
         const keyPressed = e.key;
@@ -58,17 +73,22 @@ function TextArea({file} : Props){
         e.preventDefault();
         const {selectionStart, selectionEnd} = textareaRef.current;
 
-        let textBeforeTab : string = code.slice(0, selectionStart);
+        let before : string = code.slice(0, selectionStart);
         let linesToTab : string | Array<string> = code.slice(selectionStart, selectionEnd).split('\n');
-        let textAfterTab : string = code.slice(selectionEnd, code.length);
-        const tab = '    ';
+        let after : string = code.slice(selectionEnd, code.length);
+        const tab = '\t';
 
         linesToTab = linesToTab.map((line) => {
             return tab + line;
         }).join('\n');  
 
-        setCode(textBeforeTab + linesToTab + textAfterTab);
-        textareaRef.current.setSelectionRange(selectionEnd, selectionEnd);
+        const newStart = selectionEnd + linesToTab.length;
+        setCode(before + linesToTab + after);
+
+        requestAnimationFrame(() => {
+            textareaRef.current.setSelectionRange(newStart, newStart);
+        })
+        
     }
 
     useEffect(() => {
