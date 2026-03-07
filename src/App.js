@@ -9,7 +9,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i need to fix the enter feature for the textarea
+    this is where i left off, i am trying to implement the error feature for the app
 */
 
 function App(){

@@ -1,3 +1,3 @@
-import HighlightSyntax from "./HighlightSyntax.js";
+import HighlightSyntax from "./HighlightSyntax.tsx";
 
 export default HighlightSyntax;

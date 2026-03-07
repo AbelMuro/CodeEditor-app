@@ -37,14 +37,12 @@ function TextArea({file} : Props){
         let lineBefore = '';
         let indent = '';
 
-        for(let i = selectionStart; i >= 0; i--){
+        for(let i = selectionEnd - 1; i >= 0; i--){
             if(code[i] === '\n'){
-                console.log(selectionStart, i);
                 lineBefore = code.slice(i + 1, selectionStart + 2);
                 break;
             }
         }
-        console.log(lineBefore);
 
         for(let i = 0; i < lineBefore.length; i++){
             if(lineBefore[i] === ' ' || lineBefore[i] === '\t')
