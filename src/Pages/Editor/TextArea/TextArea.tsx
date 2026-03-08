@@ -1,6 +1,8 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import { useTypedDispatch} from '~/Store';
 import HighlightSyntax from './HighlightSyntax';
+import LineNumbers from './LineNumbers';
+import HighlightErrors from './HighlightErrors';
 import * as styles from './styles.module.css';
 
 type File = {
@@ -63,7 +65,6 @@ function TextArea({file} : Props){
         })
     }
 
-
     const handleTab = (e: KeyboardEvent) => {
         const keyPressed = e.key;
 
@@ -106,20 +107,16 @@ function TextArea({file} : Props){
 
     return(
         <div className={styles.editor}>
-            <div className={styles.line_numbers}>
-                {
-                    code.split('\n').map((_, i) => {
-                        return <span> {i + 1}</span>;
-                    })  
-                }
-            </div>
+            <LineNumbers code={code}/>
             <textarea 
+                id="textarea"
                 className={styles.textarea}
                 value={code}
                 onChange={handleChange}
                 ref={textareaRef}
                 />
             <HighlightSyntax code={code}/>
+            <HighlightErrors code={code}/>
         </div>
     )
 }

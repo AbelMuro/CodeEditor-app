@@ -1,0 +1,20 @@
+.line{
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+    min-height: 33.6px;
+    margin: 0px;
+    color: transparent;
+    font-family: 'SnPro';
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 140%;
+    letter-spacing: 0px;
+}
+
+
+.error{
+    text-decoration-color: red;
+    text-decoration-style: wavy;
+    text-decoration-line: underline;
+}

@@ -25,20 +25,3 @@
 .textarea:focus{
     outline: none;
 }
-
-.line_numbers{
-    width: 30px;
-    padding: 25px 0px 0px 10px;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    color: rgb(119, 119, 119);
-    font-family: var(--preset-text-3-fontfamily);
-    font-size: var(--preset-text-3-fontsize);
-    font-weight: var(--preset-text-3-fontweight);
-    line-height: var(--preset-text-3-lineheight);
-    letter-spacing: var(--preset-text-3-letterspacing);
-}

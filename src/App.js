@@ -9,8 +9,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am trying to implement the error feature for the app
-    i need to find a way to add and remove errors from the error state as the code state changes
+    this is where i left off, i am trying to display the error message for every line of code that has a syntax error
 */
 
 function App(){

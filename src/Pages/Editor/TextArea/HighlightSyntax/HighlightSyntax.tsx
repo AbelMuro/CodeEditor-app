@@ -1,18 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React from 'react';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
-import {parse, isParseError} from 'meriyah';
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import * as styles from './styles.module.css';
-import './global.css';
 
 type Props = {
     code: string
-}
-
-type Error = {
-    message: string,
-    line: number | null,
-    reason: string
 }
 
 const containerStyles = {
@@ -47,73 +39,6 @@ const myTheme = {
 };
 
 function HighlightSyntax({code} : Props) {
-    const [errors, setErrors] = useState<Array<Error>>([]);
-    const codeRef = useRef<HTMLElement | null>(null);
-
-    const validate = () => {
-        try{
-            parse(code, {
-                next: true,
-                jsx: true,
-                module: true,
-            });
-        }
-        catch(error){ 
-            if(isParseError(error)){
-                const newError : Error = {
-                    message: error.message,
-                    line: error.loc.start.line,
-                    reason: error.description
-                }
-                setErrors([...errors, newError]);               
-            }
-            else{
-                const message = error.message;
-                console.log(message);
-            }
-        }
-    }
-
-    useEffect(() => {
-        const codeElement = document.querySelector('code');
-        codeRef.current = codeElement;
-    }, [])
-
-    useEffect(() => {
-        validate();
-    }, [code])
-
-    useEffect(() => {
-        const codeElement = codeRef.current;
-        const lineElements = codeElement.children;
-        for(let i = 0; i < lineElements.length; i++)
-            lineElements[i].setAttribute('id', `${i + 1}`);
-    }, [code])
-
-    useEffect(() => {
-        console.log(errors);
-    }, [errors])
-
-
-    useEffect(() => {
-        if(!errors.length){
-            const allLineElements = codeRef.current.children;
-            for(let i = 0; i < allLineElements.length; i++){
-                allLineElements[i].setAttribute('style', '');
-                allLineElements[i].setAttribute('title', '');
-            }
-            return;
-        }
-
-        errors.forEach((error) => {
-            const lineElement = codeRef.current.children[error.line - 1];
-            lineElement.setAttribute('style', `text-decoration-line: underline`) 
-            lineElement.setAttribute('title', error.message);            
-        })
-
-
-    }, [errors])
-
 
     return(
         <article className={styles.highlight_syntax}>
