@@ -15,15 +15,6 @@ function Lines({line} : Props) {
     const [error, setError] = useState<Error | null>(null);
     const lineElement = useRef<HTMLParagraphElement>(null);
 
-    const mousemove = (e : MouseEvent) => {
-        const top = document.elementFromPoint(e.clientX, e.clientY);
-        console.log(top);
-
-        if (top.contains(lineElement.current)) {
-            console.log("Mouse is over the p element (even if covered)");
-        }
-    }
-
     const validate = () => {
         try{
             parse(line, {
@@ -52,13 +43,8 @@ function Lines({line} : Props) {
         validate();
     }, [line])
 
-    useEffect(() => {
-        document.addEventListener('mousemove', mousemove);
-    }, [])
-
-
     return (
-        <p 
+        <p  
             ref={lineElement}
             title={error ? error.reason : ''} 
             className={error ? [styles.line, styles.error].join(' ') : styles.line}>

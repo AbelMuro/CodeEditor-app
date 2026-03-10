@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import * as styles from './styles.module.css';

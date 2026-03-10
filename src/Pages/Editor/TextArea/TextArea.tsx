@@ -108,6 +108,7 @@ function TextArea({file} : Props){
     return(
         <div className={styles.editor}>
             <LineNumbers code={code}/>
+            <HighlightErrors code={code} />            
             <textarea 
                 id="textarea"
                 className={styles.textarea}
@@ -116,7 +117,7 @@ function TextArea({file} : Props){
                 ref={textareaRef}
                 />
             <HighlightSyntax code={code}/>
-            <HighlightErrors code={code} />
+
         </div>
     )
 }
