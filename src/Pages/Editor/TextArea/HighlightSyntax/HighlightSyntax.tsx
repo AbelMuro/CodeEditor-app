@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import * as styles from './styles.module.css';
 
 type Props = {
-    code: string
+    code: string,
 }
 
 const containerStyles = {
@@ -40,10 +40,11 @@ const myTheme = {
 
 function HighlightSyntax({code} : Props) {
 
+
     return(
         <article className={styles.highlight_syntax}>
             <SyntaxHighlighter 
-                wrapLines
+                wrapLines={true}
                 language='javascript' 
                 customStyle={containerStyles} 
                 style={myTheme}>

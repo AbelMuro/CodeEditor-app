@@ -1,4 +1,4 @@
-import React, {useEffect, useState, MouseEvent} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {parse, isParseError} from 'meriyah';
 import * as styles from './styles.module.css';
 
@@ -13,10 +13,15 @@ type Error = {
 
 function Lines({line} : Props) {
     const [error, setError] = useState<Error | null>(null);
+    const lineElement = useRef<HTMLParagraphElement>(null);
 
-    const handleClick = (e: MouseEvent) => {
-        const textarea = document.getElementById('textarea');
-        textarea?.focus();
+    const mousemove = (e : MouseEvent) => {
+        const top = document.elementFromPoint(e.clientX, e.clientY);
+        console.log(top);
+
+        if (top.contains(lineElement.current)) {
+            console.log("Mouse is over the p element (even if covered)");
+        }
     }
 
     const validate = () => {
@@ -47,11 +52,15 @@ function Lines({line} : Props) {
         validate();
     }, [line])
 
+    useEffect(() => {
+        document.addEventListener('mousemove', mousemove);
+    }, [])
+
+
     return (
         <p 
-            onClick={handleClick}
+            ref={lineElement}
             title={error ? error.reason : ''} 
-            style={error ? {position: 'relative', zIndex: 100, pointerEvents: 'all'} : {}}
             className={error ? [styles.line, styles.error].join(' ') : styles.line}>
                 {line}
         </p>

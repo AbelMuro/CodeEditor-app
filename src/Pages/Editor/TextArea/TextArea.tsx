@@ -116,7 +116,7 @@ function TextArea({file} : Props){
                 ref={textareaRef}
                 />
             <HighlightSyntax code={code}/>
-            <HighlightErrors code={code}/>
+            <HighlightErrors code={code} />
         </div>
     )
 }
