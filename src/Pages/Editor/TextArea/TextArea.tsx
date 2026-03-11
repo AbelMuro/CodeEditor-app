@@ -94,7 +94,7 @@ function TextArea({file} : Props){
         textareaRef.current.addEventListener('keydown', handleKeyboard);
 
         return () => {
-            textareaRef.current.removeEventListener('keydown', handleKeyboard);
+            textareaRef.current?.removeEventListener('keydown', handleKeyboard);
         }
     }, [code])
 

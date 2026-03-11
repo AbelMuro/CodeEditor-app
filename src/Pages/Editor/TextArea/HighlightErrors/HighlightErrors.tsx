@@ -6,7 +6,6 @@ type Props = {
     code: string;
 }
 
-
 function HighlightErrors({code}: Props) {
 
     return (

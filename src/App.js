@@ -9,9 +9,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am trying to display the error message for every line of code that has a syntax error
-
-    currently on the event listener in the lines component
+    this is where i left off, i am almost finished with the app, i just need to fix the error message popup in the app
 */
 
 function App(){

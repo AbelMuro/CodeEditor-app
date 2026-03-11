@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import CreateFolder from './Folder/CreateFolder';
 import CreateFile from './Folder/CreateFile';
 import { useTypedSelector, useTypedDispatch } from '~/Store';

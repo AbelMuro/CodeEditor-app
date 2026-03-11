@@ -12,6 +12,13 @@
     font-weight: var(--preset-text-3-fontweight);
     line-height: var(--preset-text-3-lineheight);
     letter-spacing: var(--preset-text-3-letterspacing);
-    z-index: var(--third-layer);
+    z-index: var(--fourth-layer);
+    pointer-events: auto;
+}
+
+.highlight_errors::before{
+    content: '';
+    position: absolute;
+    inset: 0;
     pointer-events: none;
 }

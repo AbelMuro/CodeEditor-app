@@ -23,3 +23,10 @@
     gap: 15px;
     overflow: auto;
 }
+
+@media(max-width: 530px){
+    .files{
+        width: 100%;
+        padding: 15px 15px 0px 15px;
+    }
+}

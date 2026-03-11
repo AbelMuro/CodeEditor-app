@@ -1,0 +1,25 @@
+.gutter {
+    width: 60px;
+    height: 100%;
+    background-color: var(--preset-background-color-container);                
+    background-repeat: no-repeat;
+    background-position: 50%;
+    cursor: col-resize;
+    flex-shrink: 0;
+}
+
+.gutter.gutter-horizontal {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+}
+
+.gutter.gutter-vertical{
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+}
+
+
+@media(max-width: 530px){
+    .gutter{
+        width: 100%;
+        height: 15px !important;
+    }
+}
