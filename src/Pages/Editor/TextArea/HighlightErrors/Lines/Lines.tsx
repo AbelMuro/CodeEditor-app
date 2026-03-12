@@ -43,6 +43,7 @@ function Lines({line} : Props) {
         validate();
     }, [line])
 
+
     return (
         <p  
             ref={lineElement}

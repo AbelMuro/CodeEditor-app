@@ -19,7 +19,7 @@
     letter-spacing: var(--preset-text-3-letterspacing);
     resize: none;
     position: relative;
-    z-index: var(--third-layer);
+    z-index: var(--fourth-layer);
 }
 
 .textarea:focus{
