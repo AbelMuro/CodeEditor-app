@@ -2,10 +2,17 @@
     width: 300px;
     height: 100%;
     padding: 15px 0px 15px 15px;
-    background-color: var(--preset-background-color-container);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+.files.dark{
+    background-color: var(--preset-background-color-container-dark);
+}
+
+.files.light{
+    background-color: var(--preset-background-color-container-light);
 }
 
 .files_commands{
@@ -17,11 +24,18 @@
     height: 100%;
     padding: 15px;
     border-radius: 10px;
-    background-color: var(--preset-background-color-body);
     display: flex;
     flex-direction: column;
     gap: 15px;
     overflow: auto;
+}
+
+.folders.dark{
+    background-color: var(--preset-background-color-folders-dark);
+}
+
+.folders.light{
+    background-color: var(--preset-background-color-folders-light);
 }
 
 @media(max-width: 530px){

@@ -6,9 +6,12 @@ import Folder from './Folder';
 import File from './Folder/File';
 import AddFileButton from './AddFileButton';
 import AddFolderButton from './AddFolderButton';
+import ThemeSwitch from './ThemeSwitch';
+import {ChangeStyles} from '~/Common/Functions';
 import * as styles from './styles.module.css';
 
 function FileManager() {
+    const theme = useTypedSelector(state => state.theme.theme);
     const folders = useTypedSelector(state => state.folderManagement.allFolders.folders);
     const files = useTypedSelector(state => state.folderManagement.allFolders.files);
     const displayFolderInput = useTypedSelector(state => state.folderManagement.displayFolderInput);
@@ -35,12 +38,13 @@ function FileManager() {
     }, [])
 
     return (
-            <section className={styles.files}>
+            <section className={ChangeStyles(theme, 'files', styles)}>
                 <div className={styles.files_commands}>
                     <AddFileButton/>
                     <AddFolderButton/>
+                    <ThemeSwitch/>
                 </div>          
-                <div className={styles.folders}> 
+                <div className={ChangeStyles(theme, 'folders', styles)}> 
                     {(displayFolderInput && ('root' === currentFolderId)) ? <CreateFolder/> : <></>} 
                     {(displayFileInput && ('root' === currentFolderId)) ? <CreateFile/> : <></>} 
                         {

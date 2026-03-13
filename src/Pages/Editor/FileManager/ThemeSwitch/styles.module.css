@@ -1,0 +1,19 @@
+.container{
+    width: 60px;
+    height: 30px;
+    padding: 0px 10px;
+    border-radius: 15px;
+    background-color: var(--preset-text-color-operator);
+    align-self: center;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.dot{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: var(--preset-text-color-operator-hover);
+}

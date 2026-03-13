@@ -9,7 +9,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am almost finished with the app, i just need to fix the error message popup in the app
+    this is where i left off, i am currently working on the theme feature
 */
 
 function App(){
