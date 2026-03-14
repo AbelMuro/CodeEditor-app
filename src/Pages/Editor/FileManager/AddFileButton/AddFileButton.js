@@ -1,10 +1,12 @@
 import React from 'react';
-import { useTypedDispatch } from '~/Store';
+import { ChangeStyles } from '~/Common/Functions';
+import { useTypedDispatch, useTypedSelector } from '~/Store';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
 function AddFileButton() {
     const dispatch = useTypedDispatch();
+    const theme = useTypedSelector(state => state.theme.theme);
 
     const handleFile = () => {
         dispatch({type: 'DISPLAY_FILE_INPUT', payload: true})
@@ -12,8 +14,8 @@ function AddFileButton() {
     }
 
     return(
-        <button className={styles.add_file} onClick={handleFile}>
-            <img src={icons['addFile']}/>
+        <button className={ChangeStyles(theme, 'add_file', styles)} onClick={handleFile}>
+            {theme === 'dark' ? <img src={icons['addFileDark']}/> : <img src={icons['addFileLight']}/>}
         </button>
     )
 }

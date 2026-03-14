@@ -1,3 +1,4 @@
-import addFile from './addFile.svg';
+import addFileDark from './addFile_dark.svg';
+import addFileLight from './addFile_light.svg';
 
-export default {addFile}
+export default {addFileDark, addFileLight};

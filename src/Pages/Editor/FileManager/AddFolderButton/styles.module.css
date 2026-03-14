@@ -30,10 +30,24 @@
     object-fit: contain;
 }
 
-.add_folder:hover{
+
+
+
+.add_folder.dark:hover{
     background-color: #393939;
 }
 
-.add_folder:active{
+.add_folder.dark:active{
     background-color: #4e4e4e;
 }   
+
+
+
+.add_folder.light:hover{
+    background-color: #eaeaea;
+}
+
+.add_folder.light:active{
+    background-color: #ffffff;
+} 
+

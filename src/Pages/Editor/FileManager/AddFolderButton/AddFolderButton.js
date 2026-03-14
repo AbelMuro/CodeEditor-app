@@ -1,10 +1,12 @@
 import React from 'react';
-import { useTypedDispatch } from '~/Store';
+import {ChangeStyles} from '~/Common/Functions';
+import { useTypedDispatch, useTypedSelector } from '~/Store';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
 function AddFolderButton() {
     const dispatch = useTypedDispatch();
+    const theme = useTypedSelector(state => state.theme.theme);
 
     const handleFolder = () => {
         dispatch({type: 'DISPLAY_FOLDER_INPUT', payload: true});
@@ -14,8 +16,8 @@ function AddFolderButton() {
     return(
         <button 
             onClick={handleFolder}
-            className={styles.add_folder}>
-                <img src={icons['addFolder']}/>
+            className={ChangeStyles(theme, 'add_folder', styles)}>
+                {theme === 'dark' ? <img src={icons['addFolder_dark']}/> : <img src={icons['addFolder_light']}/>}
         </button>
     )
 };

@@ -10,6 +10,8 @@ import './global.css';
 
 /* 
     this is where i left off, i am currently working on the theme feature
+
+    gutter.gutter-vertical doesnt exist in the DOM yet
 */
 
 function App(){
