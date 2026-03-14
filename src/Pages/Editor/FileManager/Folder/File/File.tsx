@@ -14,7 +14,8 @@ function File({name, extension, id, content} : Props) {
     const dispatch = useTypedDispatch();
 
     const handleClick = () => {
-        dispatch({type: 'CHANGE_SELECTED', payload: {id}})
+        dispatch({type: 'CHANGE_SELECTED', payload: {id}});
+        dispatch({type: 'CHANGE_CURRENT_FILE', payload: {id}});
     }
 
     return(

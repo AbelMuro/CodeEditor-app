@@ -44,6 +44,7 @@ const displayFileInput = createAction('DISPLAY_FILE_INPUT');
 const updateFileContent = createAction('UPDATE_FILE_CONTENT');
 const changeCurrentFolder = createAction('CHANGE_CURRENT_FOLDER');
 const changeSelected = createAction('CHANGE_SELECTED');
+const changeCurrentFile = createAction('CHANGE_CURRENT_FILE');
 
 const folderAlreadyExists = (folders: Array<Folder>, folder: Folder) => {
     return folders.some((currFolder) => {
@@ -65,6 +66,10 @@ const traverseFolders = (currFolder : Folder, id: string) => {
         const folder = currFolder.folders[i];
         return traverseFolders(folder, id);
     }
+}
+
+const traverseFiles = (currFolder: Folder, id: string) => {
+    
 }
 
 
@@ -90,6 +95,9 @@ const folderReducer = createReducer(initialState, builder => {
             const temp = action.payload.name.split('.');
             const fileName = temp[0];
             const extension = temp[1] || 'txt';
+            if(extension !== 'js' && extension !== 'txt')
+                return;
+
             const id = action.payload.id;
             const currentFolder = state.currentFolder;
             const newFile : File = {
@@ -116,6 +124,10 @@ const folderReducer = createReducer(initialState, builder => {
         })
         .addCase(changeSelected, (state, action: PayloadAction<{id: string}>) => {
             state.selected = action.payload.id
+        })
+        .addCase(changeCurrentFile, (state, action: PayloadAction<{id: string}>) => {
+            const fileId = action.payload.id;
+            const file = traverseFiles(state.allFolders, fileId);
         })
         .addCase(updateFileContent, (state, action: PayloadAction<{content: string}>) => {
             state.currentFile.content = action.payload.content

@@ -1,26 +1,17 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
-import { useTypedDispatch} from '~/Store';
-import HighlightSyntax from './HighlightSyntax';
-import LineNumbers from './LineNumbers';
-import HighlightErrors from './HighlightErrors';
+import React, {useState, ChangeEvent, useRef, useEffect} from 'react';
+import LineNumbers from '~/Common/Components/LineNumbers';
+import {ChangeStyles} from '~/Common/Functions';
+import { useTypedSelector, useTypedDispatch } from '~/Store';
 import * as styles from './styles.module.css';
 
-type File = {
-    name : string,
-    extension: string,
-    content: string,
-}
-
-type Props = {
-    file: File | null
-}
-
-function TextArea({file} : Props){
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const [code, setCode] = useState<string>(file.content);
+function PlainTextArea() {
+    const file = useTypedSelector(state => state.folderManagement.currentFile);
+    const theme = useTypedSelector(state => state.theme.theme);
     const dispatch = useTypedDispatch();
+    const [code, setCode] = useState<string>(file.content);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const handleText = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const input = e.target.value;
         setCode(input);
     }
@@ -87,7 +78,6 @@ function TextArea({file} : Props){
         requestAnimationFrame(() => {
             textareaRef.current.setSelectionRange(newStart, newStart);
         })
-        
     }
 
     useEffect(() => {
@@ -106,20 +96,17 @@ function TextArea({file} : Props){
     }, [code])
 
     return(
-        <div className={styles.editor}>
+        <section className={styles.container}>
             <LineNumbers code={code}/>
-            <HighlightErrors code={code} />            
             <textarea 
-                id="textarea"
-                className={styles.textarea}
-                value={code}
-                onChange={handleChange}
                 ref={textareaRef}
-                />
-            <HighlightSyntax code={code}/>
+                value={code}
+                className={ChangeStyles(theme, 'textarea', styles)}
+                onChange={handleText}
+            />            
+        </section>
 
-        </div>
     )
 }
 
-export default TextArea;
+export default PlainTextArea;

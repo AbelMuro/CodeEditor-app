@@ -1,0 +1,34 @@
+.container{
+    width: 100%;
+    height: calc(100vh - 80px);
+    display: flex;
+    position: relative;
+}
+
+.textarea{
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 25px 25px 25px 45px;
+    background-color: transparent;
+    caret-color: var(--preset-text-color-operator);
+    font-family: var(--preset-text-3-fontfamily);
+    font-size: var(--preset-text-3-fontsize);
+    font-weight: var(--preset-text-3-fontweight);
+    line-height: var(--preset-text-3-lineheight);
+    letter-spacing: var(--preset-text-3-letterspacing);
+    resize: none;
+}
+
+.textarea.dark{
+    color: rgb(179, 179, 179);
+}
+
+.textarea.light{
+    color: rgb(68, 68, 68);
+}
+
+
+.textarea:focus{
+    outline: none;
+}

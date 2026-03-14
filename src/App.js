@@ -9,9 +9,10 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am currently working on the theme feature
+    this is where i left off, i am currentl fixing a bug with changing the selected file,
 
-    gutter.gutter-vertical doesnt exist in the DOM yet
+    i am in the FolderReducer creating a recursive function that will traverse through the
+    folderManagement state to find a specific file
 */
 
 function App(){

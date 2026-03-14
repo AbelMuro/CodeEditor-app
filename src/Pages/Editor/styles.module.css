@@ -1,8 +1,15 @@
 .container{
     width: 100%;
     height: calc(100vh - 80px);
-    background-color: var(--preset-background-color-body);
     display: flex;
+}
+
+.container.dark{
+    background-color: var(--preset-background-color-body);
+}
+
+.container.light{
+    background-color: rgb(230, 230, 230);
 }
 
 @media(max-width: 530px){

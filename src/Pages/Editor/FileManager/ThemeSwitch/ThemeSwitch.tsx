@@ -1,9 +1,9 @@
 import React from 'react';
+import { ChangeStyles } from '~/Common/Functions';
 import {useTypedSelector, useTypedDispatch} from '~/Store';
-import {motion, useCycle} from 'framer-motion';
+import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 
-//    const [theme, setTheme] = useCycle({x: 0}, {x: 18});
 
 function ThemeSwitch() {
     const theme = useTypedSelector(state => state.theme.theme);
@@ -14,9 +14,9 @@ function ThemeSwitch() {
     }
 
     return(
-        <button className={styles.container} onClick={handleTheme}>
+        <button className={ChangeStyles(theme, 'container', styles)} onClick={handleTheme}>
             <motion.div
-                className={styles.dot}
+                className={ChangeStyles(theme, 'dot', styles)}
                 initial={false}
                 animate={theme === 'dark' ? {x: 0} : {x: 18}}
                  />

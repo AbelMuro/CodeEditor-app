@@ -10,8 +10,15 @@
     overflow: hidden;
 }
 
+.container.dark{
+    background-color: #1F1F1F;
+}
+
+.container.light{
+    background-color: rgb(230, 230, 230);
+}
+
 .title{
-    color: white;
     margin: 0px;
     font-family: var(--preset-text-1-fontfamily);
     font-size: var(--preset-text-1-fontsize);
@@ -21,8 +28,15 @@
     text-align: center;
 }
 
+.title.dark{
+    color: white;
+}
+
+.title.light{
+    color: rgb(63, 63, 63);
+}
+
 .desc{
-    color: rgb(219, 219, 219);
     margin: 0px;
     font-family: var(--preset-text-2-fontfamily);
     font-size: var(--preset-text-2-fontsize);
@@ -30,4 +44,12 @@
     line-height: var(--preset-text-2-lineheight);
     letter-spacing: var(--preset-text-2-letterspacing);
     text-align: center;
+}
+
+.desc.dark{
+    color: rgb(219, 219, 219);
+}
+
+.desc.light{
+    color: rgb(102, 102, 102);;
 }

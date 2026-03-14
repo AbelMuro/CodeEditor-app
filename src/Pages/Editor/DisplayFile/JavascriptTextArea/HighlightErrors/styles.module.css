@@ -1,4 +1,4 @@
-.highlight_syntax{
+.highlight_errors{
     position: absolute;
     padding: 25px 25px 25px 45px;
     top: 0px;
@@ -16,6 +16,9 @@
     pointer-events: none;
 }
 
-.keyword{
-    color: blue;
+.highlight_errors::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 }

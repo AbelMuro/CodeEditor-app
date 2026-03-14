@@ -17,3 +17,40 @@
     border-radius: 100%;
     background-color: var(--preset-text-color-operator-hover);
 }
+
+
+.container.light:hover{
+   background-color: #878787;
+}
+
+.container.light:active{
+    background-color: #4e4e4e;
+}
+
+.container:hover > .dot.light{
+    background-color: var(--preset-text-color-operator);
+}
+
+.container:active > .dot.light{
+    background-color: var(--preset-text-color-operator-active);
+} 
+
+
+
+
+
+.container.dark:hover{
+    background-color: #c2c2c2;
+}
+
+.container.dark:active{
+    background-color: #ffffff;
+}
+
+.container:hover > .dot.dark{
+    background-color: #515151;
+}
+
+.container:active > .dot.dark{
+    background-color: #383838;
+}

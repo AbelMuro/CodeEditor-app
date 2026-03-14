@@ -2,9 +2,10 @@ import React, {useEffect} from 'react';
 import Split from 'react-split'
 import { useMediaQuery } from '~/Hooks';
 import {useTypedSelector} from '~/Store'
-import TextArea from './TextArea';
+import DisplayFile from './DisplayFile';
 import FileManager from './FileManager';
 import NoFileSelected from './NoFileSelected';
+import {ChangeStyles} from '~/Common/Functions';
 import * as styles from './styles.module.css';
 import icons from './icons';
 import './global.css';
@@ -21,17 +22,21 @@ function Editor() {
 
         if(theme === 'dark'){
             gutterElement.style.backgroundColor = 'rgb(19, 19, 19)';
-            gutterIconHorizontal.style.backgroundImage = `url(${icons['darkHandle']})`;
-            gutterIconVertical.style.backgroundImage = `url(${icons['darkHandle']})`;
+            if(gutterIconHorizontal)
+                gutterIconHorizontal.style.backgroundImage = `url(${icons['darkHandle']})`;
+            if(gutterIconVertical)
+                gutterIconVertical.style.backgroundImage = `url(${icons['darkHandle']})`;
         }
             
         else{
             gutterElement.style.backgroundColor = 'rgb(199, 199, 199)';
-            gutterIconHorizontal.style.backgroundImage = `url(${icons['lightHandle']})`;
-            gutterIconVertical.style.backgroundImage = `url(${icons['lightHandle']})`
+            if(gutterIconHorizontal)
+                gutterIconHorizontal.style.backgroundImage = `url(${icons['lightHandle']})`;
+            if(gutterIconVertical)
+                gutterIconVertical.style.backgroundImage = `url(${icons['lightHandle']})`
         }
             
-    }, [theme])
+    }, [theme, mobile])
 
 
     return(
@@ -42,10 +47,10 @@ function Editor() {
             gutterSize={10} 
             cursor={mobile ? "row-resize" : "col-resize"}
             direction={mobile ? 'vertical' : 'horizontal'}
-            className={styles.container}
+            className={ChangeStyles(theme, 'container', styles)}
             >
                 <FileManager/>
-                {currentFile ? <TextArea file={currentFile}/> : <NoFileSelected />}
+                {currentFile ? <DisplayFile /> : <NoFileSelected />}
         </Split>
     )
 }
