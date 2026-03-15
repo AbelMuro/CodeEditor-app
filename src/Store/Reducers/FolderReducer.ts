@@ -17,6 +17,7 @@ type Folder = {
 
 type InitialState = {
     selected: string,
+    changesSaved: boolean,
     currentFolder: string,
     currentFile: File | null,
     displayFolderInput: boolean,
@@ -24,8 +25,12 @@ type InitialState = {
     allFolders: Folder
 }
 
-const initialState : InitialState = {
+let prevState = JSON.parse(localStorage.getItem('editor_state'));
+
+
+const initialState : InitialState = prevState ? prevState : {
     selected: '',
+    changesSaved: true,
     currentFolder: 'root',
     currentFile: null,
     displayFolderInput: false,
@@ -45,6 +50,8 @@ const updateFileContent = createAction('UPDATE_FILE_CONTENT');
 const changeCurrentFolder = createAction('CHANGE_CURRENT_FOLDER');
 const changeSelected = createAction('CHANGE_SELECTED');
 const changeCurrentFile = createAction('CHANGE_CURRENT_FILE');
+const saveFile = createAction('SAVE_FILE');
+const changesSaved = createAction('CHANGES_SAVED');
 
 const folderAlreadyExists = (folders: Array<Folder>, folder: Folder) => {
     return folders.some((currFolder) => {
@@ -69,7 +76,17 @@ const traverseFolders = (currFolder : Folder, id: string) => {
 }
 
 const traverseFiles = (currFolder: Folder, id: string) => {
-    
+    const files : Array<File> = currFolder.files;
+    const folders : Array<Folder> = currFolder.folders;
+
+    for(let i = 0; i < files.length; i++){
+        if(files[i].id === id)
+            return files[i];
+    }
+
+    for(let i = 0; i < folders.length; i++){
+        return traverseFiles(folders[i], id)
+    }
 }
 
 
@@ -128,9 +145,22 @@ const folderReducer = createReducer(initialState, builder => {
         .addCase(changeCurrentFile, (state, action: PayloadAction<{id: string}>) => {
             const fileId = action.payload.id;
             const file = traverseFiles(state.allFolders, fileId);
+            state.currentFile = file;
         })
         .addCase(updateFileContent, (state, action: PayloadAction<{content: string}>) => {
             state.currentFile.content = action.payload.content
+        })
+        .addCase(saveFile, (state) => {
+            const fileId = state.currentFile.id;
+            const content = state.currentFile.content;
+            const name = state.currentFile.name;
+            const file = traverseFiles(state.allFolders, fileId);
+            file.content = content;
+            file.name = name;
+            localStorage.setItem('editor_state', JSON.stringify(state))
+        })
+        .addCase(changesSaved, (state, action: PayloadAction<{saved: boolean}>) => {
+            state.changesSaved = action.payload.saved;
         })
 });
 

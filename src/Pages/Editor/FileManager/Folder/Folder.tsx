@@ -44,9 +44,8 @@ function Folder({name, id, files, folders} : Props) {
         return files.map((file) => {
                 const name = file.name;
                 const extension = file.extension;
-                const content = file.content;
                 const id = file.id;
-                return (<File name={name} id={id} extension={extension} content={content}/>)
+                return (<File name={name} id={id} extension={extension}/>)
             })
     }, [files])
 
@@ -77,7 +76,7 @@ function Folder({name, id, files, folders} : Props) {
                         </div>
                 }
                 {
-                    (displayFolderInput&& (id === currentFolderId)) &&
+                    (displayFolderInput && (id === currentFolderId)) &&
                         <div className={styles.add_content}>
                             <CreateFolder/>
                         </div>

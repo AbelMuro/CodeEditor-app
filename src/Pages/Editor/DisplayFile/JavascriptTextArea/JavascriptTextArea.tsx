@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
+import React, {ChangeEvent, useEffect, useRef} from 'react';
 import { useTypedDispatch, useTypedSelector} from '~/Store';
 import HighlightSyntax from './HighlightSyntax';
 import LineNumbers from '~/Common/Components/LineNumbers';
@@ -6,23 +6,19 @@ import HighlightErrors from './HighlightErrors';
 import {ChangeStyles} from '~/Common/Functions';
 import * as styles from './styles.module.css';
 
-type File = {
-    name : string,
-    extension: string,
-    content: string,
-}
-
 
 function JavascriptTextArea(){
-    const file = useTypedSelector(state => state.folderManagement.currentFile);
+    const code = useTypedSelector(state => state.folderManagement.currentFile.content);
     const theme = useTypedSelector(state => state.theme.theme);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const [code, setCode] = useState<string>(file.content);
     const dispatch = useTypedDispatch();
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const input = e.target.value;
-        setCode(input);
+        dispatch({
+            type: 'UPDATE_FILE_CONTENT',
+            payload: {content: input}
+        });
     }
 
     const handleKeyboard = (e : KeyboardEvent) => {
@@ -58,7 +54,10 @@ function JavascriptTextArea(){
         newCode.splice(selectionEnd, 0, `\n${indent}`);
         const newStart : number = selectionEnd + indent.length + 1;
 
-        setCode(newCode.join(''));
+        dispatch({
+            type: 'UPDATE_FILE_CONTENT',
+            payload: {content: newCode.join('')}
+        });
 
         requestAnimationFrame(() => {
             textareaRef.current.setSelectionRange(newStart, newStart);
@@ -82,12 +81,15 @@ function JavascriptTextArea(){
         }).join('\n');  
 
         const newStart = selectionEnd + linesToTab.length;
-        setCode(before + linesToTab + after);
+
+        dispatch({
+            type: 'UPDATE_FILE_CONTENT',
+            payload: {content: before + linesToTab + after}
+        });
 
         requestAnimationFrame(() => {
             textareaRef.current.setSelectionRange(newStart, newStart);
-        })
-        
+        }) 
     }
 
     useEffect(() => {
@@ -99,11 +101,16 @@ function JavascriptTextArea(){
     }, [code])
 
     useEffect(() => {
+        if(!code) return;
+        
         dispatch({
-            type: 'UPDATE_FILE_CONTENT',
-            payload: {content: code}
+            type: 'CHANGES_SAVED',
+            payload: {
+                saved: false
+            }
         })
     }, [code])
+
 
     return(
         <div className={styles.container}>

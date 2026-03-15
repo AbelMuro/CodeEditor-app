@@ -5,15 +5,17 @@ import { useTypedSelector, useTypedDispatch } from '~/Store';
 import * as styles from './styles.module.css';
 
 function PlainTextArea() {
-    const file = useTypedSelector(state => state.folderManagement.currentFile);
+    const text = useTypedSelector(state => state.folderManagement.currentFile.content);
     const theme = useTypedSelector(state => state.theme.theme);
     const dispatch = useTypedDispatch();
-    const [code, setCode] = useState<string>(file.content);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleText = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const input = e.target.value;
-        setCode(input);
+        dispatch({
+            type: 'UPDATE_FILE_CONTENT',
+            payload: {content: input}
+        });
     }
 
     const handleKeyboard = (e : KeyboardEvent) => {
@@ -31,8 +33,8 @@ function PlainTextArea() {
         let indent = '';
 
         for(let i = selectionEnd - 1; i >= 0; i--){
-            if(code[i] === '\n'){
-                lineBefore = code.slice(i + 1, selectionStart + 2);
+            if(text[i] === '\n'){
+                lineBefore = text.slice(i + 1, selectionStart + 2);
                 break;
             }
         }
@@ -45,11 +47,14 @@ function PlainTextArea() {
         }
 
 
-        let newCode : string | Array<string> = code.split('');
+        let newCode : string | Array<string> = text.split('');
         newCode.splice(selectionEnd, 0, `\n${indent}`);
         const newStart : number = selectionEnd + indent.length + 1;
 
-        setCode(newCode.join(''));
+        dispatch({
+            type: 'UPDATE_FILE_CONTENT',
+            payload: {content: newCode.join('')}
+        });
 
         requestAnimationFrame(() => {
             textareaRef.current.setSelectionRange(newStart, newStart);
@@ -63,9 +68,9 @@ function PlainTextArea() {
         e.preventDefault();
         const {selectionStart, selectionEnd} = textareaRef.current;
 
-        let before : string = code.slice(0, selectionStart);
-        let linesToTab : string | Array<string> = code.slice(selectionStart, selectionEnd).split('\n');
-        let after : string = code.slice(selectionEnd, code.length);
+        let before : string = text.slice(0, selectionStart);
+        let linesToTab : string | Array<string> = text.slice(selectionStart, selectionEnd).split('\n');
+        let after : string = text.slice(selectionEnd, text.length);
         const tab = '\t';
 
         linesToTab = linesToTab.map((line) => {
@@ -73,7 +78,10 @@ function PlainTextArea() {
         }).join('\n');  
 
         const newStart = selectionEnd + linesToTab.length;
-        setCode(before + linesToTab + after);
+        dispatch({
+            type: 'UPDATE_FILE_CONTENT',
+            payload: {content: before + linesToTab + after}
+        });
 
         requestAnimationFrame(() => {
             textareaRef.current.setSelectionRange(newStart, newStart);
@@ -86,21 +94,25 @@ function PlainTextArea() {
         return () => {
             textareaRef.current?.removeEventListener('keydown', handleKeyboard);
         }
-    }, [code])
+    }, [text])
 
     useEffect(() => {
+        if(!text) return;
+
         dispatch({
-            type: 'UPDATE_FILE_CONTENT',
-            payload: {content: code}
+            type: 'CHANGES_SAVED',
+            payload: {
+                saved: false
+            }
         })
-    }, [code])
+    }, [text])
 
     return(
         <section className={styles.container}>
-            <LineNumbers code={code}/>
+            <LineNumbers code={text}/>
             <textarea 
                 ref={textareaRef}
-                value={code}
+                value={text}
                 className={ChangeStyles(theme, 'textarea', styles)}
                 onChange={handleText}
             />            

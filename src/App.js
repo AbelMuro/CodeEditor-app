@@ -9,10 +9,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am currentl fixing a bug with changing the selected file,
-
-    i am in the FolderReducer creating a recursive function that will traverse through the
-    folderManagement state to find a specific file
+    this is where i left off, i need to test out the save feature in the app
 */
 
 function App(){

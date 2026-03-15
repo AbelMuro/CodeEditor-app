@@ -6,6 +6,7 @@ import Folder from './Folder';
 import File from './Folder/File';
 import AddFileButton from './AddFileButton';
 import AddFolderButton from './AddFolderButton';
+import SaveButton from './SaveButton';
 import ThemeSwitch from './ThemeSwitch';
 import {ChangeStyles} from '~/Common/Functions';
 import * as styles from './styles.module.css';
@@ -40,9 +41,15 @@ function FileManager() {
     return (
             <section className={ChangeStyles(theme, 'files', styles)}>
                 <div className={styles.files_commands}>
-                    <AddFileButton/>
-                    <AddFolderButton/>
-                    <ThemeSwitch/>
+                    <div className={styles.file_buttons}>
+                        <AddFileButton/>
+                        <AddFolderButton/>                        
+                    </div>
+                    <div className={styles.file_misc}>
+                        <SaveButton/>
+                        <ThemeSwitch/>                        
+                    </div>
+
                 </div>          
                 <div className={ChangeStyles(theme, 'folders', styles)}> 
                     {(displayFolderInput && ('root' === currentFolderId)) ? <CreateFolder/> : <></>} 
@@ -62,9 +69,8 @@ function FileManager() {
                                 const name = file.name;
                                 const id = file.id;
                                 const extension = file.extension;
-                                const content = file.content;
 
-                                return <File name={name} id={id} extension={extension} content={content}/>
+                                return <File name={name} id={id} extension={extension}/>
                             })
                         }                
                 </div>                

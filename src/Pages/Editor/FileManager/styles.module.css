@@ -17,6 +17,11 @@
 
 .files_commands{
     display: flex;
+    justify-content: space-between;
+}
+
+.file_buttons, .file_misc{
+    display: flex;
 }
 
 .folders{
