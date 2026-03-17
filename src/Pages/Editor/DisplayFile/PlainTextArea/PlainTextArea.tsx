@@ -1,4 +1,4 @@
-import React, {useState, ChangeEvent, useRef, useEffect} from 'react';
+import React, {ChangeEvent, useRef, useEffect} from 'react';
 import LineNumbers from '~/Common/Components/LineNumbers';
 import {ChangeStyles} from '~/Common/Functions';
 import { useTypedSelector, useTypedDispatch } from '~/Store';
@@ -16,6 +16,13 @@ function PlainTextArea() {
             type: 'UPDATE_FILE_CONTENT',
             payload: {content: input}
         });
+
+        dispatch({
+            type: 'CHANGES_SAVED',
+            payload: {
+                saved: false
+            }
+        })
     }
 
     const handleKeyboard = (e : KeyboardEvent) => {
@@ -96,16 +103,6 @@ function PlainTextArea() {
         }
     }, [text])
 
-    useEffect(() => {
-        if(!text) return;
-
-        dispatch({
-            type: 'CHANGES_SAVED',
-            payload: {
-                saved: false
-            }
-        })
-    }, [text])
 
     return(
         <section className={styles.container}>

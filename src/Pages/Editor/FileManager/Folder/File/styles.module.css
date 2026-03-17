@@ -5,4 +5,15 @@
     font-weight: var(--preset-text-3-fontweight);
     line-height: var(--preset-text-3-lineheight);
     letter-spacing: var(--preset-text-3-letterspacing);
+    cursor: pointer;
+    border-radius: 10px;
 }
+
+.file.dark:hover{
+    background-color: #57575733;
+}
+
+.file.light:hover{
+    background-color: #c2c2c233;
+}
+

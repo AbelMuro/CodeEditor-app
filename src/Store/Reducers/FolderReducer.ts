@@ -28,7 +28,11 @@ type InitialState = {
 let prevState = JSON.parse(localStorage.getItem('editor_state'));
 
 
-const initialState : InitialState = prevState ? prevState : {
+const initialState : InitialState = prevState ? 
+{
+    ...prevState,
+    changesSaved: true,
+} : {
     selected: '',
     changesSaved: true,
     currentFolder: 'root',

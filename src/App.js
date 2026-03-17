@@ -9,7 +9,8 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i need to test out the save feature in the app
+    this is where i left off, i need to find a way to intercept the action of navigate and check the changesSaved property
+    of the global state
 */
 
 function App(){

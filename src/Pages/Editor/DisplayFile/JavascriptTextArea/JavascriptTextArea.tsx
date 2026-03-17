@@ -19,6 +19,12 @@ function JavascriptTextArea(){
             type: 'UPDATE_FILE_CONTENT',
             payload: {content: input}
         });
+        dispatch({
+            type: 'CHANGES_SAVED',
+            payload: {
+                saved: false
+            }
+        })
     }
 
     const handleKeyboard = (e : KeyboardEvent) => {
@@ -100,16 +106,6 @@ function JavascriptTextArea(){
         }
     }, [code])
 
-    useEffect(() => {
-        if(!code) return;
-        
-        dispatch({
-            type: 'CHANGES_SAVED',
-            payload: {
-                saved: false
-            }
-        })
-    }, [code])
 
 
     return(
@@ -124,7 +120,6 @@ function JavascriptTextArea(){
                 ref={textareaRef}
                 />
             <HighlightSyntax code={code}/>
-
         </div>
     )
 }

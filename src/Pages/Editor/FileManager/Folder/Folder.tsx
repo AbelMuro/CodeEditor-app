@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, memo} from 'react';
+import {ChangeStyles} from '~/Common/Functions';
 import File from './File';
 import CreateFolder from './CreateFolder';
 import CreateFile from './CreateFile';
@@ -24,6 +25,7 @@ function Folder({name, id, files, folders} : Props) {
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
     const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
     const selected = useTypedSelector(state => state.folderManagement.selected);
+    const theme = useTypedSelector(state => state.theme.theme);
 
     const handleOpen = () => {
         dispatch({type: 'CHANGE_SELECTED', payload: {id}})
@@ -57,16 +59,19 @@ function Folder({name, id, files, folders} : Props) {
 
     return(
         <section className={styles.folder}>                     
-                <div className={styles.folder_header} onClick={handleOpen} style={selected === id ? {backgroundColor: '#ffffff33'} : {}}>
-                    <motion.img 
-                        layout
-                        key={name}
-                        className={styles.arrow} 
-                        src={icons['arrow']}
-                        initial={false}
-                        animate={isOpen ? {rotate: '90deg'} : {rotate: '0deg'}}
-                        />
-                    {name}                    
+                <div 
+                    className={ChangeStyles(theme, 'folder_header', styles)} 
+                    onClick={handleOpen} 
+                    style={selected === id ? {backgroundColor: '#ffffff33'} : {}}>
+                        <motion.img 
+                            layout
+                            key={name}
+                            className={styles.arrow} 
+                            src={icons['arrow']}
+                            initial={false}
+                            animate={isOpen ? {rotate: '90deg'} : {rotate: '0deg'}}
+                            />
+                        {name}                    
                 </div>
                 {
                     (isOpen && (allFolders.length > 0 || allFiles.length > 0)) && 

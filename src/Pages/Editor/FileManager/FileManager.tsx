@@ -23,11 +23,8 @@ function FileManager() {
     const handleClick = (e: MouseEvent) => {
         const element = e.target as HTMLElement;
 
-        if(element.classList.contains(styles.folders)){
-            dispatch({type: 'CHANGE_CURRENT_FOLDER', payload: {folderId: 'root'}}); 
-            dispatch({type: 'CHANGE_SELECTED', payload: {id: ''}});
-        }
-                
+        if(element.classList.contains(styles.folders))
+            dispatch({type: 'CHANGE_CURRENT_FOLDER', payload: {folderId: 'root'}});           
     }
 
     useEffect(() => {
