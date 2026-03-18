@@ -2,7 +2,7 @@ import React from 'react';
 import Toast from '~/Common/Components/Toast';
 import {Provider} from 'react-redux';
 import Store from './Store';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {createBrowserRouter, RouterProvider, Outlet} from 'react-router-dom';
 import Home from './Pages/Home';
 import NavigationBar from './Common/Components/NavigationBar';
 import Editor from './Pages/Editor';
@@ -14,18 +14,37 @@ import './global.css';
 */
 
 function App(){
+
+    const AppWrapper = () => {
+        return(
+            <>
+                <NavigationBar/>
+                <Outlet/>
+                <Toast/>
+            </>
+        )
+    }
+
+    const router = createBrowserRouter([
+        {
+            element: <AppWrapper/>,
+            children: [
+                {
+                    path: '/',
+                    element: <Home/>
+                },
+                {
+                    path: '/editor',
+                    element: <Editor/>
+                }
+            ]
+        }
+    ]);
+    
     return(
         <Provider store={Store}>
-            <BrowserRouter>
-                <NavigationBar/>
-                <Routes>
-                    <Route path='/' element={<Home/>}/>
-                    <Route path='/editor' element={<Editor/>}/>
-                </Routes>
-            </BrowserRouter>     
-            <Toast/>
+            <RouterProvider router={router}/>
         </Provider>
-
     )
 }
 

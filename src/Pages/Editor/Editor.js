@@ -6,6 +6,7 @@ import DisplayFile from './DisplayFile';
 import FileManager from './FileManager';
 import NoFileSelected from './NoFileSelected';
 import {ChangeStyles} from '~/Common/Functions';
+import { useBlockNavigation } from '~/Common/Hooks';
 import * as styles from './styles.module.css';
 import icons from './icons';
 import './global.css';
@@ -14,6 +15,7 @@ function Editor() {
     const currentFile = useTypedSelector(state => state.folderManagement.currentFile);
     const theme = useTypedSelector(state => state.theme.theme);
     const [mobile] = useMediaQuery('(max-width: 530px)');
+    const blocker = useBlockNavigation(true);
 
     useEffect(() => {
         const gutterElement = document.querySelector('.gutter');
