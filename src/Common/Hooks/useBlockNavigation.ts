@@ -2,7 +2,6 @@ import {useEffect} from 'react';
 import { useTypedSelector } from '~/Store';
 import { useBlocker } from 'react-router-dom';
 
-
 function useBlockNavigation(shouldBlock : boolean) {
     const block = useBlocker(shouldBlock);
     const changesSaved = useTypedSelector(state => state.folderManagement.changesSaved);

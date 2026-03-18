@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import Split from 'react-split'
 import { useMediaQuery } from '~/Hooks';
 import {useTypedSelector} from '~/Store'
-import DisplayFile from './DisplayFile';
+import DisplayFiles from './DisplayFiles';
 import FileManager from './FileManager';
 import NoFileSelected from './NoFileSelected';
 import {ChangeStyles} from '~/Common/Functions';
@@ -52,7 +52,7 @@ function Editor() {
             className={ChangeStyles(theme, 'container', styles)}
             >
                 <FileManager/>
-                {currentFile ? <DisplayFile /> : <NoFileSelected />}
+                {currentFile ? <DisplayFiles /> : <NoFileSelected />}
         </Split>
     )
 }

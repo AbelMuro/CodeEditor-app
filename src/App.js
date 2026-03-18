@@ -9,8 +9,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i need to find a way to intercept the action of navigate and check the changesSaved property
-    of the global state
+    this is where i left off, i want to create a tab component that displays all the open files
 */
 
 function App(){

@@ -20,6 +20,7 @@ type InitialState = {
     changesSaved: boolean,
     currentFolder: string,
     currentFile: File | null,
+    openFiles: Array<File>
     displayFolderInput: boolean,
     displayFileInput: boolean,
     allFolders: Folder
@@ -37,6 +38,7 @@ const initialState : InitialState = prevState ?
     changesSaved: true,
     currentFolder: 'root',
     currentFile: null,
+    openFiles: [],
     displayFolderInput: false,
     displayFileInput: false,
     allFolders: {
@@ -54,6 +56,7 @@ const updateFileContent = createAction('UPDATE_FILE_CONTENT');
 const changeCurrentFolder = createAction('CHANGE_CURRENT_FOLDER');
 const changeSelected = createAction('CHANGE_SELECTED');
 const changeCurrentFile = createAction('CHANGE_CURRENT_FILE');
+const addFileToOpenFiles = createAction('ADD_FILE_TO_OPEN_FILES');
 const saveFile = createAction('SAVE_FILE');
 const changesSaved = createAction('CHANGES_SAVED');
 
@@ -165,6 +168,10 @@ const folderReducer = createReducer(initialState, builder => {
         })
         .addCase(changesSaved, (state, action: PayloadAction<{saved: boolean}>) => {
             state.changesSaved = action.payload.saved;
+        })
+        .addCase(addFileToOpenFiles, (state, action: PayloadAction<{file: File}>) => {
+            const file = action.payload.file;
+            state.openFiles.push(file);
         })
 });
 
