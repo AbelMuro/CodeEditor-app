@@ -9,7 +9,9 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i want to create a tab component that displays all the open files
+    this is where i left off, i need to refactor the global state in regards to how to organize the files and folders for the app
+
+    the files should be more independent, but the folders management component should only contain the references to the file objects
 */
 
 function App(){
