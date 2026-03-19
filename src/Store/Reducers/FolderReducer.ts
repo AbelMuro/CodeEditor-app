@@ -134,6 +134,7 @@ const folderReducer = createReducer(initialState, builder => {
             if(folder && !fileAlreadyExists(folder.files, newFile)){
                 folder.files.push(newFile);
                 state.currentFile = newFile;
+                state.openFiles.push(newFile);
             }
         })
         .addCase(displayFileInput, (state, action: PayloadAction<boolean>) => {
@@ -170,8 +171,12 @@ const folderReducer = createReducer(initialState, builder => {
             state.changesSaved = action.payload.saved;
         })
         .addCase(addFileToOpenFiles, (state, action: PayloadAction<{file: File}>) => {
-            const file = action.payload.file;
-            state.openFiles.push(file);
+            const fileToAdd = action.payload.file;
+            const alreadyExists = state.openFiles.some((file) => {
+                return fileToAdd.id === file.id;
+            });
+            if(!alreadyExists) 
+                state.openFiles.push(fileToAdd);
         })
 });
 

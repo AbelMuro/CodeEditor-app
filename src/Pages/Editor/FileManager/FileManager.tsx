@@ -66,8 +66,9 @@ function FileManager() {
                                 const name = file.name;
                                 const id = file.id;
                                 const extension = file.extension;
+                                const content = file.content
 
-                                return <File name={name} id={id} extension={extension}/>
+                                return <File name={name} id={id} extension={extension} content={content}/>
                             })
                         }                
                 </div>                

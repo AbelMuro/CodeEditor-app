@@ -47,7 +47,8 @@ function Folder({name, id, files, folders} : Props) {
                 const name = file.name;
                 const extension = file.extension;
                 const id = file.id;
-                return (<File name={name} id={id} extension={extension}/>)
+                const content = file.content;
+                return (<File name={name} id={id} extension={extension} content={content}/>)
             })
     }, [files])
 

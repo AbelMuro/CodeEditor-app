@@ -6,10 +6,11 @@ import * as styles from './styles.module.css';
 type Props = {
     name: string,
     extension: string,
-    id: string
+    id: string,
+    content: string
 }
 
-function File({name, extension, id} : Props) {
+function File({name, extension, id, content} : Props) {
     const selected = useTypedSelector(state => state.folderManagement.selected);
     const theme = useTypedSelector(state => state.theme.theme);
     const dispatch = useTypedDispatch();
@@ -17,6 +18,7 @@ function File({name, extension, id} : Props) {
     const handleClick = () => {
         dispatch({type: 'CHANGE_SELECTED', payload: {id}});
         dispatch({type: 'CHANGE_CURRENT_FILE', payload: {id}});
+        dispatch({type: 'ADD_FILE_TO_OPEN_FILES', payload: {file: {name, extension, id, content}}})
     }
 
     return(
