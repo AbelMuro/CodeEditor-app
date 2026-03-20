@@ -1,22 +1,25 @@
-import React, {ChangeEvent, useRef, useEffect} from 'react';
+import React, {ChangeEvent, useRef, useEffect, useState, useDeferredValue} from 'react';
 import LineNumbers from '~/Common/Components/LineNumbers';
 import {ChangeStyles} from '~/Common/Functions';
 import { useTypedSelector, useTypedDispatch } from '~/Store';
 import * as styles from './styles.module.css';
 
-function PlainTextArea() {
-    const text = useTypedSelector(state => state.folderManagement.currentFile.content);
+type Props = {
+    content: string,
+    currentFileId: string
+}
+
+
+function PlainTextArea({content, currentFileId} : Props) {
+    const [text, setText] = useState<string>(content);
+    const deferredCode = useDeferredValue(text, '1000');
     const theme = useTypedSelector(state => state.theme.theme);
     const dispatch = useTypedDispatch();
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleText = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const input = e.target.value;
-        dispatch({
-            type: 'UPDATE_FILE_CONTENT',
-            payload: {content: input}
-        });
-
+        setText(input);
         dispatch({
             type: 'CHANGES_SAVED',
             payload: {
@@ -102,6 +105,13 @@ function PlainTextArea() {
             textareaRef.current?.removeEventListener('keydown', handleKeyboard);
         }
     }, [text])
+
+    useEffect(() => {
+        dispatch({
+            type: 'UPDATE_FILE_CONTENT',
+            payload: {content: deferredCode, id: currentFileId}
+        });
+    }, [deferredCode])
 
 
     return(

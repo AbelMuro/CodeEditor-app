@@ -14,7 +14,8 @@ import * as styles from './styles.module.css';
 function FileManager() {
     const theme = useTypedSelector(state => state.theme.theme);
     const folders = useTypedSelector(state => state.folderManagement.allFolders.folders);
-    const files = useTypedSelector(state => state.folderManagement.allFolders.files);
+    const rootFiles = useTypedSelector(state => state.folderManagement.allFolders.files);
+    const allFiles = useTypedSelector(state => state.folderManagement.allFiles);
     const displayFolderInput = useTypedSelector(state => state.folderManagement.displayFolderInput);
     const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
@@ -62,11 +63,12 @@ function FileManager() {
                             })
                         }
                         {
-                            files.map((file) => {
-                                const name = file.name;
-                                const id = file.id;
-                                const extension = file.extension;
-                                const content = file.content
+                            rootFiles.map((fileId) => {
+                                const currentFile = allFiles.filter(file => file.id === fileId)[0];
+                                const name = currentFile.name;
+                                const id = currentFile.id;
+                                const extension = currentFile.extension;
+                                const content = currentFile.content
 
                                 return <File name={name} id={id} extension={extension} content={content}/>
                             })

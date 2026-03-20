@@ -9,18 +9,19 @@ import icons from './icons';
 import * as styles from './styles.module.css';
 
 type File = {name: string, extension: string, content: string, id: string}
-type Folder = {name: string, id: string, files: Array<File>, folders: Array<Folder>}
+type Folder = {name: string, id: string, files: Array<string>, folders: Array<Folder>}
 
 type Props = {
     name: string,
     id: string,
-    files: Array<File>,
+    files: Array<string>,
     folders: Array<Folder>,
 }
 
 function Folder({name, id, files, folders} : Props) {
     const [isOpen, setOpen] = useCycle(false, true);
     const dispatch = useTypedDispatch();
+    const allFiles = useTypedSelector(state => state.folderManagement.allFiles);
     const displayFolderInput = useTypedSelector(state => state.folderManagement.displayFolderInput);
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
     const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
@@ -32,7 +33,7 @@ function Folder({name, id, files, folders} : Props) {
         setOpen();
     }
 
-    const allFolders = useMemo(() => {
+    const folderNodes = useMemo(() => {
         return folders.map((folder) => {
             const name = folder.name;
             const id = folder.id;
@@ -42,11 +43,12 @@ function Folder({name, id, files, folders} : Props) {
         }) 
     }, [folders]);
 
-    const allFiles = useMemo(() => {
-        return files.map((file) => {
+    const fileNodes = useMemo(() => {
+        return files.map((fileId) => {
+                const id = fileId;
+                const file = allFiles.filter(file => file.id === id)[0];
                 const name = file.name;
                 const extension = file.extension;
-                const id = file.id;
                 const content = file.content;
                 return (<File name={name} id={id} extension={extension} content={content}/>)
             })
@@ -75,10 +77,10 @@ function Folder({name, id, files, folders} : Props) {
                         {name}                    
                 </div>
                 {
-                    (isOpen && (allFolders.length > 0 || allFiles.length > 0)) && 
+                    (isOpen && (folders.length > 0 || allFiles.length > 0)) && 
                         <div className={styles.folder_content}>                       
-                            {allFolders}
-                            {allFiles}  
+                            {folderNodes}
+                            {fileNodes}  
                         </div>
                 }
                 {

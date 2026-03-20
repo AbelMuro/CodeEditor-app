@@ -9,9 +9,8 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i need to refactor the global state in regards to how to organize the files and folders for the app
-
-    the files should be more independent, but the folders management component should only contain the references to the file objects
+    this is where i left off, i am trying to find a way to re-render the TextArea component
+    when the current file changes
 */
 
 function App(){

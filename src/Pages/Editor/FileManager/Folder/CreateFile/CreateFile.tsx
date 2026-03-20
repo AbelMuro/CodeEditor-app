@@ -12,9 +12,9 @@ function CreateFile() {
         const keyPressed = e.key;
 
         if(keyPressed === 'Enter'){
-            if(!name) return dispatch({type: 'DISPLAY_FILE_INPUT', payload: false})
-            dispatch({type: 'ADD_FILE', payload: {name, id: uuid()}})
-            dispatch({type: 'DISPLAY_FILE_INPUT', payload: false})
+            if(!name) return dispatch({type: 'DISPLAY_FILE_INPUT', payload: false});
+            dispatch({type: 'ADD_FILE', payload: {name, id: uuid()}});
+            dispatch({type: 'DISPLAY_FILE_INPUT', payload: false});
         }
     }
 

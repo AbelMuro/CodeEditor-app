@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useRef} from 'react';
+import React, {ChangeEvent, useEffect, useRef, useState, useDeferredValue} from 'react';
 import { useTypedDispatch, useTypedSelector} from '~/Store';
 import HighlightSyntax from './HighlightSyntax';
 import LineNumbers from '~/Common/Components/LineNumbers';
@@ -6,19 +6,21 @@ import HighlightErrors from './HighlightErrors';
 import {ChangeStyles} from '~/Common/Functions';
 import * as styles from './styles.module.css';
 
+type Props = {
+    content: string,
+    currentFileId: string
+}
 
-function JavascriptTextArea(){
-    const code = useTypedSelector(state => state.folderManagement.currentFile.content);
+function JavascriptTextArea({content, currentFileId} : Props){
+    const [code, setCode] = useState<string>(content);
+    const deferredCode = useDeferredValue(code, '1000');
     const theme = useTypedSelector(state => state.theme.theme);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const dispatch = useTypedDispatch();
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const input = e.target.value;
-        dispatch({
-            type: 'UPDATE_FILE_CONTENT',
-            payload: {content: input}
-        });
+        setCode(input);
         dispatch({
             type: 'CHANGES_SAVED',
             payload: {
@@ -105,6 +107,14 @@ function JavascriptTextArea(){
             textareaRef.current?.removeEventListener('keydown', handleKeyboard);
         }
     }, [code])
+
+
+    useEffect(() => {
+        dispatch({
+            type: 'UPDATE_FILE_CONTENT',
+            payload: {content: deferredCode, id: currentFileId}
+        });  
+    }, [deferredCode])
 
 
 
