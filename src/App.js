@@ -11,6 +11,8 @@ import './global.css';
 /* 
     this is where i left off, i am trying to find a way to re-render the TextArea component
     when the current file changes
+
+    i also want to remove the folderStructure property of the global state
 */
 
 function App(){
