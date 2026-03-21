@@ -11,8 +11,16 @@ type File = {
 type Folder = {
     name: string,
     id: string,
-    folders: Array<Folder>,
+    folders: Array<string>,
     files: Array<string>
+}
+
+type AllFiles = {
+    [key: string]: File
+}
+
+type AllFolders = {
+    [key: string]: Folder
 }
 
 type InitialState = {
@@ -26,8 +34,9 @@ type InitialState = {
     displayFolderInput: boolean,
     displayFileInput: boolean,
 
-    allFolders: Folder,
-    allFiles: Array<File>
+    folderStructure: Folder,
+    allFolders: AllFolders,
+    allFiles: AllFiles
 }
 
 let prevState = JSON.parse(localStorage.getItem('editor_state'));
@@ -48,13 +57,14 @@ const initialState : InitialState = prevState ?
     displayFolderInput: false,
     displayFileInput: false,
 
-    allFolders: {
+    folderStructure: {
         name: 'root',
         id: 'root',
         folders: [],
         files: [],
     },
-    allFiles: []
+    allFiles: {},
+    allFolders: {},
 }
 const addFolder = createAction('ADD_FOLDER');
 const addFile = createAction('ADD_FILE');
@@ -68,9 +78,9 @@ const addFileToOpenFiles = createAction('ADD_FILE_TO_OPEN_FILES');
 const saveFile = createAction('SAVE_FILE');
 const changesSaved = createAction('CHANGES_SAVED');
 
-const folderAlreadyExists = (folders: Array<Folder>, folder: Folder) => {
-    return folders.some((currFolder) => {
-        return currFolder.name === folder.name;
+const folderAlreadyExists = (foldersId: Array<string>, folder: Folder, allFolders: AllFolders) => {
+    return foldersId.some((currFolderId) => {
+        return allFolders[currFolderId].name === folder.name;
     });
 };
 
@@ -80,13 +90,13 @@ const fileAlreadyExists = (allFiles : Array<File>, fileToAdd : string) => {
     })
 }
 
-const traverseFolders = (currFolder : Folder, id: string) => {
+const traverseFolders = (currFolder : Folder, id: string, allFolders: AllFolders) => {
     if(currFolder.id === id)
         return currFolder
     
     for(let i = 0; i < currFolder.folders.length; i++){
-        const folder = currFolder.folders[i];
-        return traverseFolders(folder, id);
+        const folderId = currFolder.folders[i];
+        return traverseFolders(allFolders[folderId], id, allFolders);
     }
 }
 
@@ -97,19 +107,22 @@ const folderReducer = createReducer(initialState, builder => {
             const folderName = action.payload.name;
             const folderId = action.payload.id;
             const currentOpenFolder = state.currentFolder;
+            const allFolders = state.allFolders;
             const newFolder : Folder = {
                 name: folderName,
                 id: folderId,
                 folders: [],
                 files: []
             };
-            const folder = traverseFolders(state.allFolders, currentOpenFolder);
-            if(folder && !folderAlreadyExists(folder.folders, newFolder)){
-                folder.folders.push(newFolder)
+            const folder = traverseFolders(state.folderStructure, currentOpenFolder, allFolders);
+            if(folder && !folderAlreadyExists(folder.folders, newFolder, allFolders)){
+                folder.folders.push(newFolder.id);
                 state.currentFolder = newFolder.id;
+                state.allFolders[newFolder.id] = newFolder;
             }
         })
         .addCase(addFile, (state, action: PayloadAction<{name: string, id: string}>) => {
+            const allFolders = state.allFolders;
             const temp = action.payload.name.split('.');
             const fileName = temp[0];
             const extension = temp[1] || 'txt';
@@ -117,19 +130,19 @@ const folderReducer = createReducer(initialState, builder => {
                 return;
 
             const id = action.payload.id;
-            const currentFolder = state.currentFolder;
+            const currentOpenFolder = state.currentFolder;
             const newFile : File = {
                 name: fileName,
                 extension,
                 id,
                 content: ''
             }
-            const folder = traverseFolders(state.allFolders, currentFolder);
-            if(folder && !fileAlreadyExists(state.allFiles, newFile.id)){
+            const folder = traverseFolders(state.folderStructure, currentOpenFolder, allFolders);
+            if(folder && !fileAlreadyExists(Object.values(state.allFiles), newFile.id)){
                 folder.files.push(newFile.id);
                 state.currentFile = newFile.id;
                 state.openFiles.push(newFile.id);
-                state.allFiles.push(newFile);
+                state.allFiles[newFile.id] = newFile;
             }
         })
         .addCase(displayFileInput, (state, action: PayloadAction<boolean>) => {
@@ -150,15 +163,9 @@ const folderReducer = createReducer(initialState, builder => {
             state.currentFile = fileId;
         })
         .addCase(updateFileContent, (state, action: PayloadAction<{id: string, content: string}>) => {
-            const fileToUpdate = action.payload.id;
+            const fileIdToUpdate = action.payload.id;
             const content = action.payload.content;
-
-            for(let i = 0; i < state.allFiles.length; i++){
-                if(state.allFiles[i].id === fileToUpdate){
-                    state.allFiles[i].content = content;
-                    return;
-                }  
-            }
+            state.allFiles[fileIdToUpdate].content = content;
         })
         .addCase(saveFile, (state) => {
             localStorage.setItem('editor_state', JSON.stringify(state))

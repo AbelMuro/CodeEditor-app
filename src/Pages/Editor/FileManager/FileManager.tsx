@@ -13,9 +13,8 @@ import * as styles from './styles.module.css';
 
 function FileManager() {
     const theme = useTypedSelector(state => state.theme.theme);
-    const folders = useTypedSelector(state => state.folderManagement.allFolders.folders);
-    const rootFiles = useTypedSelector(state => state.folderManagement.allFolders.files);
-    const allFiles = useTypedSelector(state => state.folderManagement.allFiles);
+    const folders = useTypedSelector(state => state.folderManagement.folderStructure.folders);
+    const rootFiles = useTypedSelector(state => state.folderManagement.folderStructure.files);
     const displayFolderInput = useTypedSelector(state => state.folderManagement.displayFolderInput);
     const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
@@ -53,24 +52,13 @@ function FileManager() {
                     {(displayFolderInput && ('root' === currentFolderId)) ? <CreateFolder/> : <></>} 
                     {(displayFileInput && ('root' === currentFolderId)) ? <CreateFile/> : <></>} 
                         {
-                            folders.map((folder) => {
-                                const name = folder.name;
-                                const id = folder.id;
-                                const files = folder.files;
-                                const folders = folder.folders;
-                
-                                return <Folder name={name} id={id} files={files} folders={folders}/>
+                            folders.map((folderId) => {
+                                return <Folder id={folderId} />
                             })
                         }
                         {
                             rootFiles.map((fileId) => {
-                                const currentFile = allFiles.filter(file => file.id === fileId)[0];
-                                const name = currentFile.name;
-                                const id = currentFile.id;
-                                const extension = currentFile.extension;
-                                const content = currentFile.content
-
-                                return <File name={name} id={id} extension={extension} content={content}/>
+                                return <File id={fileId}/>
                             })
                         }                
                 </div>                

@@ -61,10 +61,7 @@ function PlainTextArea({content, currentFileId} : Props) {
         newCode.splice(selectionEnd, 0, `\n${indent}`);
         const newStart : number = selectionEnd + indent.length + 1;
 
-        dispatch({
-            type: 'UPDATE_FILE_CONTENT',
-            payload: {content: newCode.join('')}
-        });
+        setText(newCode.join(''));
 
         requestAnimationFrame(() => {
             textareaRef.current.setSelectionRange(newStart, newStart);
@@ -88,10 +85,7 @@ function PlainTextArea({content, currentFileId} : Props) {
         }).join('\n');  
 
         const newStart = selectionEnd + linesToTab.length;
-        dispatch({
-            type: 'UPDATE_FILE_CONTENT',
-            payload: {content: before + linesToTab + after}
-        });
+        setText(before + linesToTab + after);
 
         requestAnimationFrame(() => {
             textareaRef.current.setSelectionRange(newStart, newStart);

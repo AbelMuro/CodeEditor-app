@@ -36,6 +36,9 @@ body, html{
     --preset-background-color-folders-dark: #1F1F1F;
     --preset-background-color-folders-light: rgb(143, 143, 143);
 
+    --preset-background-color-selected-file-dark: #1F1F1F;
+    --preset-background-color-selected-file-light: rgb(230, 230, 230);
+
     --preset-background-color-gutter: #1F1F1F;
 
     --preset-text-color-keyword: #328dd7;

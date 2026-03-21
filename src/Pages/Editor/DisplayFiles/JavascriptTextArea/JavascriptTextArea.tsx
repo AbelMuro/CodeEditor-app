@@ -61,12 +61,7 @@ function JavascriptTextArea({content, currentFileId} : Props){
         let newCode : string | Array<string> = code.split('');
         newCode.splice(selectionEnd, 0, `\n${indent}`);
         const newStart : number = selectionEnd + indent.length + 1;
-
-        dispatch({
-            type: 'UPDATE_FILE_CONTENT',
-            payload: {content: newCode.join('')}
-        });
-
+        setCode(newCode.join(''));
         requestAnimationFrame(() => {
             textareaRef.current.setSelectionRange(newStart, newStart);
         })
@@ -90,11 +85,7 @@ function JavascriptTextArea({content, currentFileId} : Props){
 
         const newStart = selectionEnd + linesToTab.length;
 
-        dispatch({
-            type: 'UPDATE_FILE_CONTENT',
-            payload: {content: before + linesToTab + after}
-        });
-
+        setCode(before + linesToTab + after);
         requestAnimationFrame(() => {
             textareaRef.current.setSelectionRange(newStart, newStart);
         }) 

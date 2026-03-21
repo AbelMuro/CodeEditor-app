@@ -14,9 +14,10 @@ function CreateFolder() {
 
         if(keyPressed === 'Enter'){
             if(!name) return dispatch({type: 'DISPLAY_FOLDER_INPUT', payload: false});    
-
-            dispatch({type: 'ADD_FOLDER', payload: {name, id: uuid()}})
+            const folderId = uuid();
+            dispatch({type: 'ADD_FOLDER', payload: {name, id: folderId}})
             dispatch({type: 'DISPLAY_FOLDER_INPUT', payload: false})
+            dispatch({type: 'CHANGE_SELECTED', payload: {id: folderId}})
         }
     }
 

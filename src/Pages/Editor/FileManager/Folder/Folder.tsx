@@ -9,19 +9,17 @@ import icons from './icons';
 import * as styles from './styles.module.css';
 
 type File = {name: string, extension: string, content: string, id: string}
-type Folder = {name: string, id: string, files: Array<string>, folders: Array<Folder>}
+type Folder = {name: string, id: string, files: Array<string>, folders: Array<string>}
 
 type Props = {
-    name: string,
     id: string,
-    files: Array<string>,
-    folders: Array<Folder>,
 }
 
-function Folder({name, id, files, folders} : Props) {
+function Folder({id} : Props) {
     const [isOpen, setOpen] = useCycle(false, true);
     const dispatch = useTypedDispatch();
-    const allFiles = useTypedSelector(state => state.folderManagement.allFiles);
+    const folder = useTypedSelector(state => state.folderManagement.allFolders[id])
+    const name = folder.name;
     const displayFolderInput = useTypedSelector(state => state.folderManagement.displayFolderInput);
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
     const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
@@ -34,25 +32,18 @@ function Folder({name, id, files, folders} : Props) {
     }
 
     const folderNodes = useMemo(() => {
-        return folders.map((folder) => {
-            const name = folder.name;
-            const id = folder.id;
-            const folders = folder.folders;
-            const files = folder.files;
-            return (<Folder name={name} id={id} folders={folders} files={files}/>)
+        const allFolders = folder.folders;
+        return allFolders.map((folderId) => {
+            return (<Folder id={folderId}/>)
         }) 
-    }, [folders]);
+    }, [folder]);
 
     const fileNodes = useMemo(() => {
+        const files = folder.files;
         return files.map((fileId) => {
-                const id = fileId;
-                const file = allFiles.filter(file => file.id === id)[0];
-                const name = file.name;
-                const extension = file.extension;
-                const content = file.content;
-                return (<File name={name} id={id} extension={extension} content={content}/>)
+                return (<File id={fileId}/>)
             })
-    }, [files])
+    }, [folder])
 
     useEffect(() => {
         if(isOpen)
@@ -77,7 +68,7 @@ function Folder({name, id, files, folders} : Props) {
                         {name}                    
                 </div>
                 {
-                    (isOpen && (folders.length > 0 || allFiles.length > 0)) && 
+                    (isOpen && (folderNodes.length > 0 || fileNodes.length > 0)) && 
                         <div className={styles.folder_content}>                       
                             {folderNodes}
                             {fileNodes}  

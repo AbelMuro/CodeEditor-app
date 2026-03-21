@@ -4,13 +4,11 @@ import {useTypedSelector, useTypedDispatch} from '~/Store';
 import * as styles from './styles.module.css';
 
 type Props = {
-    name: string,
-    extension: string,
     id: string,
-    content: string
 }
 
-function File({name, extension, id, content} : Props) {
+function File({id} : Props) {
+    const file = useTypedSelector(state => state.folderManagement.allFiles[id]);
     const selected = useTypedSelector(state => state.folderManagement.selected);
     const theme = useTypedSelector(state => state.theme.theme);
     const dispatch = useTypedDispatch();
@@ -26,7 +24,7 @@ function File({name, extension, id, content} : Props) {
             onClick={handleClick}
             className={ChangeStyles(theme, 'file', styles)} 
             style={selected === id ? {backgroundColor: '#ffffff33'} : {}}>
-            {`${name}.${extension}`}
+            {`${file.name}.${file.extension}`}
         </div>
     )
 }

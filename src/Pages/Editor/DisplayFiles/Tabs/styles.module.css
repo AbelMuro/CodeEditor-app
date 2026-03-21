@@ -39,10 +39,22 @@
     color: var(--preset-text-color-operator-active)
 }
 
+
+
 .tab.dark:last-child{
     border-right: 0.5px solid #414141;
 }
 
 .tab.light:last-child{
     border-right: 0.5px solid #f2f2f2;
+}
+
+.selected.dark{
+    background-color: var(--preset-background-color-selected-file-dark);
+    border-bottom: none;
+}
+
+.selected.light{
+    background-color: var(--preset-background-color-selected-file-light);
+    border-bottom: none;
 }
