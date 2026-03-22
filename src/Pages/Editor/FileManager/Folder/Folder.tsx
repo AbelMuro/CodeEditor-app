@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, memo} from 'react';
+import React, { useEffect, useMemo, memo, MouseEvent, useState} from 'react';
 import {ChangeStyles} from '~/Common/Functions';
 import File from './File';
 import CreateFolder from './CreateFolder';
@@ -16,7 +16,8 @@ type Props = {
 }
 
 function Folder({id} : Props) {
-    const [isOpen, setOpen] = useCycle(false, true);
+    const open = useTypedSelector(state => state.folderManagement.allFolders[id].open);
+    const [openMenu, setOpenMenu] = useState<{x: number, y: number}>(null);
     const dispatch = useTypedDispatch();
     const folder = useTypedSelector(state => state.folderManagement.allFolders[id])
     const name = folder.name;
@@ -28,7 +29,20 @@ function Folder({id} : Props) {
 
     const handleOpen = () => {
         dispatch({type: 'CHANGE_SELECTED', payload: {id}})
-        setOpen();
+        dispatch({type: 'OPEN_FOLDER', payload: {id}})
+    }
+
+    const handleRightClick = (e: MouseEvent) => {
+        e.preventDefault();
+        setOpenMenu({x: e.clientX, y: e.clientY});
+    }
+
+    const handleContextMenu = () => {
+        setOpenMenu(null);
+    }
+
+    const handleDelete = () => {
+        dispatch({type: 'DELETE_FOLDER', payload: {id}})
     }
 
     const folderNodes = useMemo(() => {
@@ -46,14 +60,40 @@ function Folder({id} : Props) {
     }, [folder])
 
     useEffect(() => {
-        if(isOpen)
+        if(open)
             dispatch({type: 'CHANGE_CURRENT_FOLDER', payload: {folderId: id}});
         
-    }, [isOpen])
+    }, [open])
+
+    useEffect(() => {
+        if(openMenu)
+            document.addEventListener('click', handleContextMenu);
+        else
+            document.removeEventListener('click', handleContextMenu);
+
+        return () => {
+            document.removeEventListener('click', handleContextMenu);
+        }
+
+
+    }, [openMenu])
 
     return(
-        <section className={styles.folder}>                     
+        <section className={styles.folder}>        
+                {
+                    openMenu && 
+                        <ul 
+                            className={ChangeStyles(theme, 'folder_menu', styles)} 
+                            style={{top: openMenu.y, left: openMenu.x}}>
+                                <li>
+                                    <button className={styles.folder_menu_button} onClick={handleDelete}>
+                                        Delete
+                                    </button>
+                                </li>
+                        </ul>
+                }             
                 <div 
+                    onContextMenu={handleRightClick}
                     className={ChangeStyles(theme, 'folder_header', styles)} 
                     onClick={handleOpen} 
                     style={selected === id ? {backgroundColor: '#ffffff33'} : {}}>
@@ -63,12 +103,12 @@ function Folder({id} : Props) {
                             className={styles.arrow} 
                             src={icons['arrow']}
                             initial={false}
-                            animate={isOpen ? {rotate: '90deg'} : {rotate: '0deg'}}
+                            animate={open ? {rotate: '90deg'} : {rotate: '0deg'}}
                             />
                         {name}                    
                 </div>
                 {
-                    (isOpen && (folderNodes.length > 0 || fileNodes.length > 0)) && 
+                    (open && (folderNodes.length > 0 || fileNodes.length > 0)) && 
                         <div className={styles.folder_content}>                       
                             {folderNodes}
                             {fileNodes}  

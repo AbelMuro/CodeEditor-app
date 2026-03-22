@@ -30,6 +30,8 @@ body, html{
     
     
     --preset-background-color-body: #1F1F1F;
+    --preset-background-color-context-menu-dark: #383838;
+    --preset-background-color-context-menu-light: rgb(207, 207, 207);
 
     --preset-background-color-container-dark: rgb(19, 19, 19);
     --preset-background-color-container-light: rgb(199, 199, 199);

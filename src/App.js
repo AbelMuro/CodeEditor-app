@@ -9,10 +9,8 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am trying to find a way to re-render the TextArea component
-    when the current file changes
-
-    i also want to remove the folderStructure property of the global state
+    this is where i left off, i am trying to implement the delete folder feature, 
+    i am currently trying to find a way to delete the id reference in the parent folder
 */
 
 function App(){

@@ -9,6 +9,7 @@ type File = {
 }
 
 type Folder = {
+    open: boolean,
     name: string,
     id: string,
     folders: Array<string>,
@@ -34,7 +35,6 @@ type InitialState = {
     displayFolderInput: boolean,
     displayFileInput: boolean,
 
-    folderStructure: Folder,
     allFolders: AllFolders,
     allFiles: AllFiles
 }
@@ -57,17 +57,18 @@ const initialState : InitialState = prevState ?
     displayFolderInput: false,
     displayFileInput: false,
 
-    folderStructure: {
-        name: 'root',
-        id: 'root',
-        folders: [],
-        files: [],
-    },
     allFiles: {},
-    allFolders: {},
+    allFolders: {
+        'root': {
+            name: 'root',
+            id: 'root',
+            folders: [],
+            files: [],
+        }},
 }
 const addFolder = createAction('ADD_FOLDER');
 const addFile = createAction('ADD_FILE');
+const deleteFolder = createAction('DELETE_FOLDER')
 const displayFolderInput = createAction('DISPLAY_FOLDER_INPUT');
 const displayFileInput = createAction('DISPLAY_FILE_INPUT');
 const updateFileContent = createAction('UPDATE_FILE_CONTENT');
@@ -77,6 +78,7 @@ const changeCurrentFile = createAction('CHANGE_CURRENT_FILE');
 const addFileToOpenFiles = createAction('ADD_FILE_TO_OPEN_FILES');
 const saveFile = createAction('SAVE_FILE');
 const changesSaved = createAction('CHANGES_SAVED');
+const openFolder = createAction('OPEN_FOLDER');
 
 const folderAlreadyExists = (foldersId: Array<string>, folder: Folder, allFolders: AllFolders) => {
     return foldersId.some((currFolderId) => {
@@ -108,13 +110,15 @@ const folderReducer = createReducer(initialState, builder => {
             const folderId = action.payload.id;
             const currentOpenFolder = state.currentFolder;
             const allFolders = state.allFolders;
+            const rootFolder = state.allFolders.root;
             const newFolder : Folder = {
+                open: false,
                 name: folderName,
                 id: folderId,
                 folders: [],
                 files: []
             };
-            const folder = traverseFolders(state.folderStructure, currentOpenFolder, allFolders);
+            const folder = traverseFolders(rootFolder, currentOpenFolder, allFolders);
             if(folder && !folderAlreadyExists(folder.folders, newFolder, allFolders)){
                 folder.folders.push(newFolder.id);
                 state.currentFolder = newFolder.id;
@@ -123,6 +127,7 @@ const folderReducer = createReducer(initialState, builder => {
         })
         .addCase(addFile, (state, action: PayloadAction<{name: string, id: string}>) => {
             const allFolders = state.allFolders;
+            const rootFolder = state.allFolders.root;
             const temp = action.payload.name.split('.');
             const fileName = temp[0];
             const extension = temp[1] || 'txt';
@@ -137,7 +142,7 @@ const folderReducer = createReducer(initialState, builder => {
                 id,
                 content: ''
             }
-            const folder = traverseFolders(state.folderStructure, currentOpenFolder, allFolders);
+            const folder = traverseFolders(rootFolder, currentOpenFolder, allFolders);
             if(folder && !fileAlreadyExists(Object.values(state.allFiles), newFile.id)){
                 folder.files.push(newFile.id);
                 state.currentFile = newFile.id;
@@ -180,6 +185,25 @@ const folderReducer = createReducer(initialState, builder => {
             });
             if(!alreadyExists) 
                 state.openFiles.push(fileToAdd);
+        })
+        .addCase(openFolder, (state, action: PayloadAction<{id: string}>) => {
+            const id = action.payload.id;
+            state.allFolders[id].open = !state.allFolders[id].open
+        })
+        .addCase(deleteFolder, (state, action: PayloadAction<{id: string}>) => {
+            const folderId = action.payload.id;
+            const folder = state.allFolders[folderId]
+            const allFolders = state.allFolders;
+            const allFiles = state.allFiles;            
+            const subFolders = folder.folders;
+            const subFiles = folder.files;
+            for(let i = 0; i < subFolders.length; i++)
+                delete allFolders[subFolders[i]];                
+            
+            for(let i = 0; i < subFiles.length; i++)
+                delete allFiles[subFiles[i]];
+                
+            delete state.allFolders[folderId]
         })
 });
 

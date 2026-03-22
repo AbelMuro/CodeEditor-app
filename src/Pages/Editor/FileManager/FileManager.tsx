@@ -13,8 +13,7 @@ import * as styles from './styles.module.css';
 
 function FileManager() {
     const theme = useTypedSelector(state => state.theme.theme);
-    const folders = useTypedSelector(state => state.folderManagement.folderStructure.folders);
-    const rootFiles = useTypedSelector(state => state.folderManagement.folderStructure.files);
+    const rootFolder = useTypedSelector(state => state.folderManagement.allFolders['root']);
     const displayFolderInput = useTypedSelector(state => state.folderManagement.displayFolderInput);
     const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
@@ -52,12 +51,12 @@ function FileManager() {
                     {(displayFolderInput && ('root' === currentFolderId)) ? <CreateFolder/> : <></>} 
                     {(displayFileInput && ('root' === currentFolderId)) ? <CreateFile/> : <></>} 
                         {
-                            folders.map((folderId) => {
+                            rootFolder.folders.map((folderId) => {
                                 return <Folder id={folderId} />
                             })
                         }
                         {
-                            rootFiles.map((fileId) => {
+                            rootFolder.files.map((fileId) => {
                                 return <File id={fileId}/>
                             })
                         }                

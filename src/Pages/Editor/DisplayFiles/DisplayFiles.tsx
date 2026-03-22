@@ -22,9 +22,9 @@ function DisplayFiles(){
         if(!file) return <></>;
 
         if(file.extension === 'js')
-            return <JavascriptTextArea content={file.content} currentFileId={file.id}/>
+            return <JavascriptTextArea key={file.id} content={file.content} currentFileId={file.id}/>
         else 
-            return <PlainTextArea content={file.content} currentFileId={file.id}/>
+            return <PlainTextArea key={file.id} content={file.content} currentFileId={file.id}/>
     },[file])
 
     useEffect(() => {

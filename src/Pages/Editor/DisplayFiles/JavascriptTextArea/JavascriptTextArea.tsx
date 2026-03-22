@@ -91,6 +91,7 @@ function JavascriptTextArea({content, currentFileId} : Props){
         }) 
     }
 
+
     useEffect(() => {
         textareaRef.current.addEventListener('keydown', handleKeyboard);
 
