@@ -4,7 +4,8 @@ import File from './File';
 import CreateFolder from './CreateFolder';
 import CreateFile from './CreateFile';
 import {useTypedDispatch, useTypedSelector} from '~/Store';
-import {motion, useCycle} from 'framer-motion';
+import {motion} from 'framer-motion';
+import RenameFolder from './RenameFolder';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
@@ -18,6 +19,7 @@ type Props = {
 function Folder({id} : Props) {
     const open = useTypedSelector(state => state.folderManagement.allFolders[id].open);
     const [openMenu, setOpenMenu] = useState<{x: number, y: number}>(null);
+    const [rename, setRename] = useState<boolean>(false);
     const dispatch = useTypedDispatch();
     const folder = useTypedSelector(state => state.folderManagement.allFolders[id])
     const name = folder.name;
@@ -43,6 +45,10 @@ function Folder({id} : Props) {
 
     const handleDelete = () => {
         dispatch({type: 'DELETE_FOLDER', payload: {id}})
+    }
+
+    const handleRename = () => {
+        setRename(!rename);
     }
 
     const folderNodes = useMemo(() => {
@@ -76,23 +82,37 @@ function Folder({id} : Props) {
         }
 
 
-    }, [openMenu])
+    }, [openMenu]);
+
+    useEffect(() => {
+        return;
+        if(rename)
+            document.addEventListener('click', handleRename)
+        else
+            document.removeEventListener('click', handleRename);
+
+        return () => {
+            document.removeEventListener('click', handleRename)
+        }
+    }, [rename])
 
     return(
         <section className={styles.folder}>        
                 {
                     openMenu && 
-                        <ul 
-                            className={ChangeStyles(theme, 'folder_menu', styles)} 
+                        <ul className={ChangeStyles(theme, 'folder_menu', styles)} 
                             style={{top: openMenu.y, left: openMenu.x}}>
                                 <li>
-                                    <button className={styles.folder_menu_button} onClick={handleDelete}>
+                                    <button className={ChangeStyles(theme, 'folder_menu_button', styles)} onClick={handleDelete}>
                                         Delete
+                                    </button>
+                                    <button className={ChangeStyles(theme, 'folder_menu_button', styles)} onClick={handleRename}>
+                                        Rename
                                     </button>
                                 </li>
                         </ul>
                 }             
-                <div 
+                {rename ? <RenameFolder/> : <div 
                     onContextMenu={handleRightClick}
                     className={ChangeStyles(theme, 'folder_header', styles)} 
                     onClick={handleOpen} 
@@ -106,7 +126,7 @@ function Folder({id} : Props) {
                             animate={open ? {rotate: '90deg'} : {rotate: '0deg'}}
                             />
                         {name}                    
-                </div>
+                </div>}
                 {
                     (open && (folderNodes.length > 0 || fileNodes.length > 0)) && 
                         <div className={styles.folder_content}>                       

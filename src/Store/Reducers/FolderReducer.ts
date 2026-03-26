@@ -192,16 +192,23 @@ const folderReducer = createReducer(initialState, builder => {
         })
         .addCase(deleteFolder, (state, action: PayloadAction<{id: string}>) => {
             const folderId = action.payload.id;
-            const folder = state.allFolders[folderId]
+            const folderToBeDeleted = state.allFolders[folderId]
             const allFolders = state.allFolders;
             const allFiles = state.allFiles;            
-            const subFolders = folder.folders;
-            const subFiles = folder.files;
-            for(let i = 0; i < subFolders.length; i++)
-                delete allFolders[subFolders[i]];                
+            const subFoldersToBeDeleted = folderToBeDeleted.folders;
+            const subFilesToBeDeleted = folderToBeDeleted.files;
+            const allFoldersArray = Object.entries(allFolders);
+
+            for(let i = 0; i < allFoldersArray.length; i++)
+                for(let j = 0; j < allFoldersArray[i][1].folders.length; j++)
+                    if(allFoldersArray[i][1].folders[j] === folderId)
+                        allFoldersArray[i][1].folders.splice(j, j + 1);
             
-            for(let i = 0; i < subFiles.length; i++)
-                delete allFiles[subFiles[i]];
+            for(let i = 0; i < subFoldersToBeDeleted.length; i++)
+                delete allFolders[subFoldersToBeDeleted[i]];                
+            
+            for(let i = 0; i < subFilesToBeDeleted.length; i++)
+                delete allFiles[subFilesToBeDeleted[i]];
                 
             delete state.allFolders[folderId]
         })

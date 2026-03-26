@@ -9,8 +9,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am trying to implement the delete folder feature, 
-    i am currently trying to find a way to delete the id reference in the parent folder
+    this is where i left off, i am trying to implement the rename feature for the folder component
 */
 
 function App(){

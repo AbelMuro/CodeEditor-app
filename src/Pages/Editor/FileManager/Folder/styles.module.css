@@ -79,6 +79,22 @@
     font-family: var(--preset-text-3-fontfamily);
     font-weight: var(--preset-text-3-fontweight);
     line-height: var(--preset-text-3-lineheight);
-    letter-spacing: var(--preset-text-3-letterspacing);
-    color: var(--preset-text-color-operator);   
+    letter-spacing: var(--preset-text-3-letterspacing);  
+    cursor: pointer;
+}
+
+.folder_menu_button.dark{
+    color: var(--preset-text-color-operator); 
+}
+
+.folder_menu_button.dark:hover{
+    color: var(--preset-text-color-operator-hover);
+}
+
+.folder_menu_button.light{
+    color: var(--preset-text-color-operator-active);
+}
+
+.folder_menu_button.light:hover{
+    color: var(--preset-text-color-operator-hover)
 }
