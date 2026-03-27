@@ -9,7 +9,7 @@ import Editor from './Pages/Editor';
 import './global.css';
 
 /* 
-    this is where i left off, i am trying to implement the rename feature for the folder component
+    this is where i left off, i want to implement the drag and drop feature for the app
 */
 
 function App(){

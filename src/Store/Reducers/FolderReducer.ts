@@ -79,6 +79,7 @@ const addFileToOpenFiles = createAction('ADD_FILE_TO_OPEN_FILES');
 const saveFile = createAction('SAVE_FILE');
 const changesSaved = createAction('CHANGES_SAVED');
 const openFolder = createAction('OPEN_FOLDER');
+const renameFolder = createAction('RENAME_FOLDER');
 
 const folderAlreadyExists = (foldersId: Array<string>, folder: Folder, allFolders: AllFolders) => {
     return foldersId.some((currFolderId) => {
@@ -211,6 +212,11 @@ const folderReducer = createReducer(initialState, builder => {
                 delete allFiles[subFilesToBeDeleted[i]];
                 
             delete state.allFolders[folderId]
+        })
+        .addCase(renameFolder, (state, action : PayloadAction<{id: string, name: string}>) => {
+            const folderId = action.payload.id;
+            const newName = action.payload.name;
+            state.allFolders[folderId].name = newName
         })
 });
 
