@@ -1,4 +1,5 @@
 import React from 'react';
+import FileContextMenu from './FileContextMenu';
 import { ChangeStyles } from '~/Common/Functions';
 import {useTypedSelector, useTypedDispatch} from '~/Store';
 import * as styles from './styles.module.css';
@@ -16,16 +17,25 @@ function File({id} : Props) {
     const handleClick = () => {
         dispatch({type: 'CHANGE_SELECTED', payload: {id}});
         dispatch({type: 'CHANGE_CURRENT_FILE', payload: {id}});
-        dispatch({type: 'ADD_FILE_TO_OPEN_FILES', payload: {id}})
+        dispatch({type: 'ADD_FILE_TO_OPEN_FILES', payload: {id}});
     }
 
     return(
-        <div 
-            onClick={handleClick}
-            className={ChangeStyles(theme, 'file', styles)} 
-            style={selected === id ? {backgroundColor: '#ffffff33'} : {}}>
-            {`${file.name}.${file.extension}`}
-        </div>
+        <FileContextMenu
+            id={id}
+            Header={({handleRightClick}) => {
+                return (
+                    <div 
+                        onContextMenu={handleRightClick}
+                        onClick={handleClick}
+                        className={ChangeStyles(theme, 'file', styles)} 
+                        style={selected === id ? {backgroundColor: '#ffffff33'} : {}}>
+                        {`${file.name}.${file.extension}`}
+                    </div>                    
+                )
+            }}
+        />
+
     )
 }
 

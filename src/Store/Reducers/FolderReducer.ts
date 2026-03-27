@@ -80,6 +80,8 @@ const saveFile = createAction('SAVE_FILE');
 const changesSaved = createAction('CHANGES_SAVED');
 const openFolder = createAction('OPEN_FOLDER');
 const renameFolder = createAction('RENAME_FOLDER');
+const deleteFile = createAction('DELETE_FILE');
+const renameFile = createAction('RENAME_FILE');
 
 const folderAlreadyExists = (foldersId: Array<string>, folder: Folder, allFolders: AllFolders) => {
     return foldersId.some((currFolderId) => {
@@ -218,6 +220,30 @@ const folderReducer = createReducer(initialState, builder => {
             const newName = action.payload.name;
             state.allFolders[folderId].name = newName
         })
+        .addCase(deleteFile, (state, action: PayloadAction<{id: string}>) => {
+            const fileId = action.payload.id;
+            const allFoldersArray = Object.entries(state.allFolders);
+
+            for(let i = 0; i < allFoldersArray.length; i++){
+                const folder = allFoldersArray[i][1];
+                const subFiles = folder.files;
+                for(let j = 0; j < subFiles.length; j++){
+                    if(subFiles[j] === fileId){
+                        subFiles.splice(j, j + 1);
+                        i = allFoldersArray.length;
+                        break;     
+                    } 
+                }
+            }
+            delete state.allFiles[fileId];
+        })
+        .addCase(renameFile, (state, action: PayloadAction<{id: string, name: string}>) => {
+            const fileId = action.payload.id;
+            const name = action.payload.name;
+
+            state.allFiles[fileId].name = name;
+        })
+
 });
 
 export default folderReducer;

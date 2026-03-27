@@ -1,0 +1,48 @@
+.file_menu{
+    width: 200px;
+    height: fit-content;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: var(--fifth-layer);
+    transition: none;
+    list-style-type: none;
+    margin: 0px;
+    padding: 15px;
+}
+
+.file_menu.dark{
+    background-color: var(--preset-background-color-context-menu-dark);
+}
+
+.file_menu.light{
+    background-color: var(--preset-background-color-context-menu-light)
+}
+
+.file_menu_button{
+    background-color: transparent;
+    border: none;
+    font-size: var(--preset-text-3-fontsize);
+    font-family: var(--preset-text-3-fontfamily);
+    font-weight: var(--preset-text-3-fontweight);
+    line-height: var(--preset-text-3-lineheight);
+    letter-spacing: var(--preset-text-3-letterspacing);  
+    cursor: pointer;
+}
+
+.file_menu_button.dark{
+    color: var(--preset-text-color-operator); 
+}
+
+.file_menu_button.dark:hover{
+    color: var(--preset-text-color-operator-hover);
+}
+
+.file_menu_button.light{
+    color: var(--preset-text-color-operator-active);
+}
+
+.file_menu_button.light:hover{
+    color: var(--preset-text-color-operator-hover)
+}

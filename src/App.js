@@ -4,12 +4,14 @@ import {Provider} from 'react-redux';
 import Store from './Store';
 import {createBrowserRouter, RouterProvider, Outlet} from 'react-router-dom';
 import Home from './Pages/Home';
-import NavigationBar from './Common/Components/NavigationBar';
 import Editor from './Pages/Editor';
+import NavigationBar from './Common/Components/NavigationBar';
+import {DndProvider} from 'react-dnd';
+import {HTML5Backend}from 'react-dnd-html5-backend';
 import './global.css';
 
 /* 
-    this is where i left off, i want to implement the drag and drop feature for the app
+    this is where i left off, i need to delete the id reference to the deleted file in the openFiles property of the global state
 */
 
 function App(){
@@ -18,7 +20,9 @@ function App(){
         return(
             <>
                 <NavigationBar/>
-                <Outlet/>
+                    <DndProvider backend={HTML5Backend}>
+                        <Outlet/>
+                    </DndProvider>
                 <Toast/>
             </>
         )
