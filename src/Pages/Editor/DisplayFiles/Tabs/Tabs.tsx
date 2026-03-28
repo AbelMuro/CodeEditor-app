@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import { useTypedSelector, useTypedDispatch } from '~/Store';
 import {ChangeStyles} from '~/Common/Functions'
+import icons from './icons';
 import * as styles from './styles.module.css';
 
 
@@ -14,6 +15,10 @@ function Tabs() {
     const handleTab = (id: string) => {
         dispatch({type: 'CHANGE_CURRENT_FILE', payload: {id}});
         dispatch({type: 'CHANGE_SELECTED', payload: {id}})
+    }
+
+    const handleClose = (id: string) => {
+        dispatch({type: 'CLOSE_FILE', payload: {id}})
     }
 
     const selectedStyles = (fileId: string) : string => {
@@ -34,11 +39,21 @@ function Tabs() {
                     const extension = currentFile.extension;
 
                     return (
-                        <div 
-                            className={[ChangeStyles(theme, 'tab', styles), selectedStyles(id)].join(' ')} 
-                            onClick={() => handleTab(id)}>
-                                {`${name}.${extension}`}
+                        <div className={styles.container}>
+                            <div 
+                                className={[ChangeStyles(theme, 'tab', styles), selectedStyles(id)].join(' ')} 
+                                onClick={() => handleTab(id)}>
+                                    {`${name}.${extension}`}
+                            </div>
+                            <button className={styles.close_button} onClick={() => handleClose(id)}>
+                                {
+                                    theme === 'dark' ? 
+                                    <img className={styles.close} src={icons['closeDark']}/> :
+                                    <img className={styles.close} src={icons['closeLight']}/>
+                                }
+                            </button>
                         </div>
+
                     )
                 })
             }

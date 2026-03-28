@@ -11,7 +11,7 @@ import {HTML5Backend}from 'react-dnd-html5-backend';
 import './global.css';
 
 /* 
-    this is where i left off, i need to delete the id reference to the deleted file in the openFiles property of the global state
+    this is where i left off, i need to define the cases in the reducer that enables me to drag and drop folders and files
 */
 
 function App(){

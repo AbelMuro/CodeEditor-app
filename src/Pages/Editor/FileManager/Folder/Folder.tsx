@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, memo, MouseEvent, useState, MouseEventHandler} from 'react';
+import React, { useEffect, useMemo, memo} from 'react';
+import {useDrag, useDrop} from 'react-dnd';
 import {ChangeStyles} from '~/Common/Functions';
 import File from './File';
 import CreateFolder from './CreateFolder';
@@ -9,8 +10,8 @@ import {motion} from 'framer-motion';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
-type File = {name: string, extension: string, content: string, id: string}
-type Folder = {name: string, id: string, files: Array<string>, folders: Array<string>}
+type File = {name: string, extension: string, content: string, id: string};
+type Folder = {name: string, id: string, files: Array<string>, folders: Array<string>};
 
 type Props = {
     id: string,
@@ -26,6 +27,46 @@ function Folder({id} : Props) {
     const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
     const selected = useTypedSelector(state => state.folderManagement.selected);
     const theme = useTypedSelector(state => state.theme.theme);
+    const [{isDragging}, drag] = useDrag({
+        type: 'folder',
+        item: () => ({
+            id,
+            type: 'folder'
+        }),
+        isDragging: (monitor) => {
+            const item = monitor.getItem();
+            return item.id === id
+        },
+        canDrag: () => {
+            return true;
+        },
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging()
+        })
+    })
+    
+    const [collect, drop] = useDrop({
+        accept: ['file', 'folder'],
+        collect: (monitor) => ({
+            handlerId: monitor.getHandlerId(),
+        }),
+        hover: (item, monitor) => {
+
+        },
+        drop: (item : {id: string, type: string}, monitor) => {
+            const type = item.type;
+            if(type === 'file'){
+                const fileId = item.id;
+                dispatch({type: 'CHANGE_FILE', payload: {fileId, folderId: id}})
+            }
+                
+            else if(type === 'folder'){
+                const folderIdToBeMoved = item.id;
+                dispatch({type: 'CHANGE_FOLDER', payload: {folderIdToBeMoved, destinationFolder: id}});
+            }
+                
+        }
+    }) 
 
     const handleOpen = () => {
         dispatch({type: 'CHANGE_SELECTED', payload: {id}})
@@ -48,6 +89,15 @@ function Folder({id} : Props) {
             })
     }, [folder])
 
+    const folderStyles = useMemo(() => {
+        if(isDragging)
+            return {opacity: 0};
+        else if(selected === id)
+            return {backgroundColor: '#ffffff33'};
+        else
+            return {}
+    }, [selected, isDragging]) 
+
 
     useEffect(() => {
         if(open)
@@ -65,7 +115,8 @@ function Folder({id} : Props) {
                             <div onContextMenu={handleRightClick}
                                 className={ChangeStyles(theme, 'folder_header', styles)} 
                                 onClick={handleOpen} 
-                                style={selected === id ? {backgroundColor: '#ffffff33'} : {}}>
+                                style={folderStyles}
+                                ref={(ref) => {drag(drop(ref))}}>
                                     <motion.img 
                                         layout
                                         key={name}

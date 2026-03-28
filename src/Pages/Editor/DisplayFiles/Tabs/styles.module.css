@@ -13,10 +13,11 @@
 }
 
 .tab{
-    padding: 10px;
+    padding: 2px 40px 2px 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px;
     font-family: var(--preset-text-3-fontfamily);
     font-size: var(--preset-text-3-fontsize);
     font-weight: var(--preset-text-3-fontweight);
@@ -39,8 +40,6 @@
     color: var(--preset-text-color-operator-active)
 }
 
-
-
 .tab.dark:last-child{
     border-right: 0.5px solid #414141;
 }
@@ -57,4 +56,28 @@
 .selected.light{
     background-color: var(--preset-background-color-selected-file-light);
     border-bottom: none;
+}
+
+.container{
+    position: relative;
+}
+
+.close_button{
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 10px;
+    margin: auto;
+}
+
+.close{
+    width: 20px;
+    object-fit: contain;
+    cursor: pointer;
 }

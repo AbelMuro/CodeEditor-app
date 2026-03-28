@@ -82,6 +82,9 @@ const openFolder = createAction('OPEN_FOLDER');
 const renameFolder = createAction('RENAME_FOLDER');
 const deleteFile = createAction('DELETE_FILE');
 const renameFile = createAction('RENAME_FILE');
+const closeFile = createAction('CLOSE_FILE');
+const changeFolder = createAction('CHANGE_FOLDER');
+const changeFile = createAction('CHANGE_FILE');
 
 const folderAlreadyExists = (foldersId: Array<string>, folder: Folder, allFolders: AllFolders) => {
     return foldersId.some((currFolderId) => {
@@ -236,6 +239,10 @@ const folderReducer = createReducer(initialState, builder => {
                 }
             }
             delete state.allFiles[fileId];
+            const currentOpenFiles = state.openFiles;
+            for(let i = 0; i < state.openFiles.length; i++)
+                if(currentOpenFiles[i] === fileId)
+                    currentOpenFiles.splice(i, i + 1);
         })
         .addCase(renameFile, (state, action: PayloadAction<{id: string, name: string}>) => {
             const fileId = action.payload.id;
@@ -243,7 +250,24 @@ const folderReducer = createReducer(initialState, builder => {
 
             state.allFiles[fileId].name = name;
         })
+        .addCase(closeFile, (state, action: PayloadAction<{id: string}>) => {
+            const fileId = action.payload.id;
+            const openFiles = state.openFiles;
+            
+            for(let i = 0; i < openFiles.length; i++)
+                if(openFiles[i] === fileId)
+                    openFiles.splice(i, i + 1);
 
+            if(state.currentFile === fileId)
+                state.currentFile = '';
+        })
+        .addCase(changeFile, (state, action: PayloadAction<{id: string}>) => {
+            const fileId = action.payload.id;
+
+        })
+        .addCase(changeFolder, (state, action: PayloadAction<{folderIdToBeMoved: string, destinationFolder: string}>) => {
+
+        })
 });
 
 export default folderReducer;
