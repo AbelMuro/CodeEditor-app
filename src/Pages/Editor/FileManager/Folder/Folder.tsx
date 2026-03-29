@@ -51,13 +51,16 @@ function Folder({id} : Props) {
             handlerId: monitor.getHandlerId(),
         }),
         hover: (item, monitor) => {
-
+            dispatch({type: 'OPEN_FOLDER', payload: {id, open: true}})
+        },
+        canDrop: (item, monitor) => {
+            return true;
         },
         drop: (item : {id: string, type: string}, monitor) => {
             const type = item.type;
             if(type === 'file'){
                 const fileId = item.id;
-                dispatch({type: 'CHANGE_FILE', payload: {fileId, folderId: id}})
+                dispatch({type: 'CHANGE_FILE', payload: {fileId, destinationFolder: id}})
             }
                 
             else if(type === 'folder'){
@@ -70,7 +73,7 @@ function Folder({id} : Props) {
 
     const handleOpen = () => {
         dispatch({type: 'CHANGE_SELECTED', payload: {id}})
-        dispatch({type: 'OPEN_FOLDER', payload: {id}})
+        dispatch({type: 'OPEN_FOLDER', payload: {id, open: !open}})
     }
 
 
@@ -89,15 +92,6 @@ function Folder({id} : Props) {
             })
     }, [folder])
 
-    const folderStyles = useMemo(() => {
-        if(isDragging)
-            return {opacity: 0};
-        else if(selected === id)
-            return {backgroundColor: '#ffffff33'};
-        else
-            return {}
-    }, [selected, isDragging]) 
-
 
     useEffect(() => {
         if(open)
@@ -107,7 +101,12 @@ function Folder({id} : Props) {
 
 
     return(
-        <section className={styles.folder}>                   
+        <section 
+            key={id}
+            className={styles.folder}
+            ref={(ref) => {drag(drop(ref))}}
+            style={isDragging ? {opacity: 0} : {}}
+            >                   
                 <FolderContextMenu 
                     id={id}
                     Header={({handleRightClick}) => {
@@ -115,8 +114,7 @@ function Folder({id} : Props) {
                             <div onContextMenu={handleRightClick}
                                 className={ChangeStyles(theme, 'folder_header', styles)} 
                                 onClick={handleOpen} 
-                                style={folderStyles}
-                                ref={(ref) => {drag(drop(ref))}}>
+                                style={selected === id ? {backgroundColor: '#ffffff33'} : {}}>
                                     <motion.img 
                                         layout
                                         key={name}

@@ -9,6 +9,7 @@ import AddFolderButton from './AddFolderButton';
 import SaveButton from './SaveButton';
 import ThemeSwitch from './ThemeSwitch';
 import {ChangeStyles} from '~/Common/Functions';
+import { useDrop } from 'react-dnd';
 import * as styles from './styles.module.css';
 
 function FileManager() {
@@ -18,6 +19,26 @@ function FileManager() {
     const displayFileInput = useTypedSelector(state => state.folderManagement.displayFileInput);
     const currentFolderId = useTypedSelector(state => state.folderManagement.currentFolder);
     const dispatch = useTypedDispatch();
+
+    const [collect, drop] = useDrop({
+            accept: ['file', 'folder'],
+            collect: (monitor) => ({
+                handlerId: monitor.getHandlerId(),
+            }),
+            drop: (item : {id: string, type: string}, monitor) => {
+                const alreadyDropped = monitor.didDrop();
+                if(alreadyDropped) return;
+                const type = item.type;
+                if(type === 'file'){
+                    const fileId = item.id;
+                    dispatch({type: 'CHANGE_FILE', payload: {fileId, destinationFolder: 'root'}})
+                }
+                else if(type === 'folder'){
+                    const folderIdToBeMoved = item.id;
+                    dispatch({type: 'CHANGE_FOLDER', payload: {folderIdToBeMoved, destinationFolder: 'root'}});
+                }   
+            }
+        }) 
 
     const handleClick = (e: MouseEvent) => {
         const element = e.target as HTMLElement;
@@ -47,7 +68,7 @@ function FileManager() {
                     </div>
 
                 </div>          
-                <div className={ChangeStyles(theme, 'folders', styles)}> 
+                <div className={ChangeStyles(theme, 'folders', styles)} ref={(ref) => {drop(ref)}}> 
                     {(displayFolderInput && ('root' === currentFolderId)) ? <CreateFolder/> : <></>} 
                     {(displayFileInput && ('root' === currentFolderId)) ? <CreateFile/> : <></>} 
                         {

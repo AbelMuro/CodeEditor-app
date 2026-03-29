@@ -92,9 +92,9 @@ const folderAlreadyExists = (foldersId: Array<string>, folder: Folder, allFolder
     });
 };
 
-const fileAlreadyExists = (allFiles : Array<File>, fileToAdd : string) => {
-    return allFiles.some((file) => {
-        return file.id === fileToAdd;
+const fileAlreadyExists = (allFiles : Array<string>, fileToAdd : string) => {
+    return allFiles.some((fileId) => {
+        return fileId === fileToAdd;
     })
 }
 
@@ -133,7 +133,7 @@ const folderReducer = createReducer(initialState, builder => {
         })
         .addCase(addFile, (state, action: PayloadAction<{name: string, id: string}>) => {
             const allFolders = state.allFolders;
-            const rootFolder = state.allFolders.root;
+            const currentFolder = state.currentFolder;
             const temp = action.payload.name.split('.');
             const fileName = temp[0];
             const extension = temp[1] || 'txt';
@@ -141,15 +141,14 @@ const folderReducer = createReducer(initialState, builder => {
                 return;
 
             const id = action.payload.id;
-            const currentOpenFolder = state.currentFolder;
             const newFile : File = {
                 name: fileName,
                 extension,
                 id,
                 content: ''
             }
-            const folder = traverseFolders(rootFolder, currentOpenFolder, allFolders);
-            if(folder && !fileAlreadyExists(Object.values(state.allFiles), newFile.id)){
+            const folder = allFolders[currentFolder];
+            if(!fileAlreadyExists(folder.files, newFile.id)){
                 folder.files.push(newFile.id);
                 state.currentFile = newFile.id;
                 state.openFiles.push(newFile.id);
@@ -192,9 +191,10 @@ const folderReducer = createReducer(initialState, builder => {
             if(!alreadyExists) 
                 state.openFiles.push(fileToAdd);
         })
-        .addCase(openFolder, (state, action: PayloadAction<{id: string}>) => {
+        .addCase(openFolder, (state, action: PayloadAction<{id: string, open: boolean}>) => {
             const id = action.payload.id;
-            state.allFolders[id].open = !state.allFolders[id].open
+            const open = action.payload.open;
+            state.allFolders[id].open = open;
         })
         .addCase(deleteFolder, (state, action: PayloadAction<{id: string}>) => {
             const folderId = action.payload.id;
@@ -261,12 +261,40 @@ const folderReducer = createReducer(initialState, builder => {
             if(state.currentFile === fileId)
                 state.currentFile = '';
         })
-        .addCase(changeFile, (state, action: PayloadAction<{id: string}>) => {
-            const fileId = action.payload.id;
+        .addCase(changeFile, (state, action: PayloadAction<{fileId: string, destinationFolder: string}>) => {
+            const fileId = action.payload.fileId;
+            const folderId = action.payload.destinationFolder;
+            const allFolders = Object.entries(state.allFolders);
+
+            for(let i = 0; i < allFolders.length; i++){
+                const subFiles = allFolders[i][1].files;
+                for(let j = 0; j < subFiles.length; j++){
+                    if(subFiles[j] === fileId){
+                        subFiles.splice(j, j + 1);
+                        i = allFolders.length;
+                        break;
+                    }
+                }
+            }
+            state.allFolders[folderId].files.push(fileId);
 
         })
         .addCase(changeFolder, (state, action: PayloadAction<{folderIdToBeMoved: string, destinationFolder: string}>) => {
+            const folderId = action.payload.folderIdToBeMoved;
+            const destinationFolder = action.payload.destinationFolder;
+            const allFolders = Object.entries(state.allFolders);
 
+            for(let i = 0; i < allFolders.length; i++){
+                const subFolders = allFolders[i][1].folders;
+                for(let j = 0; j < subFolders.length; j++){
+                    if(subFolders[j] === folderId){
+                        subFolders.splice(j, j + 1);
+                        i = allFolders.length;
+                        break;
+                    }
+                }
+            }
+            state.allFolders[destinationFolder].folders.push(folderId);
         })
 });
 

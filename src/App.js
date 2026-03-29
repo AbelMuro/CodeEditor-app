@@ -11,7 +11,9 @@ import {HTML5Backend}from 'react-dnd-html5-backend';
 import './global.css';
 
 /* 
-    this is where i left off, i need to define the cases in the reducer that enables me to drag and drop folders and files
+    this is where i left off, there is a bug with react-dnd where if i drag an item too quickly, the component (folder) will unmount
+
+    i need to find a way to keep the component mounted
 */
 
 function App(){
