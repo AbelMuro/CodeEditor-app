@@ -24,13 +24,11 @@ function Lines({line} : Props) {
             });
             setError(null);
         }
-        catch(error){ 
+        catch(error){
             if(isParseError(error)){
-                const newError : Error = {
-                    message: error.message,
-                    reason: error.description
-                }
-                setError(newError);               
+                const message = error.message;
+                const reason = error.description;
+                setError({message, reason});
             }
             else{
                 const message = error.message;
@@ -42,7 +40,6 @@ function Lines({line} : Props) {
     useEffect(() => {
         validate();
     }, [line])
-
 
     return (
         <p  

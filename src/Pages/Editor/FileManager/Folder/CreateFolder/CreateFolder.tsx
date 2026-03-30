@@ -37,7 +37,8 @@ function CreateFolder() {
         if(!name) 
             dispatch({type: 'DISPLAY_FOLDER_INPUT', payload: false})
         else{
-            dispatch({type: 'ADD_FOLDER', payload: {name, id: uuid()}})
+            const folderId = uuid();
+            dispatch({type: 'ADD_FOLDER', payload: {name, id: folderId}})
             dispatch({type: 'DISPLAY_FOLDER_INPUT', payload: false})
         }
     }

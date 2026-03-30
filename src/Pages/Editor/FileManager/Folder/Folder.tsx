@@ -58,6 +58,9 @@ function Folder({id} : Props) {
         },
         drop: (item : {id: string, type: string}, monitor) => {
             const type = item.type;
+            const itemId = item.id;
+
+            if(itemId === id) return;
             if(type === 'file'){
                 const fileId = item.id;
                 dispatch({type: 'CHANGE_FILE', payload: {fileId, destinationFolder: id}})
@@ -97,8 +100,6 @@ function Folder({id} : Props) {
         if(open)
             dispatch({type: 'CHANGE_CURRENT_FOLDER', payload: {folderId: id}});
     }, [open])
-
-
 
     return(
         <section 
