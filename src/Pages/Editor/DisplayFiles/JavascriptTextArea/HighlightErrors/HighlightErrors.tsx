@@ -15,7 +15,6 @@ type Error = {
 
 function HighlightErrors({code}: Props) {
     const [nodes, setNodes] = useState<Array<{start: number, end: number}>>([]);
-    const [syntax, setSyntax] = useState<string>(code);
 
     const getNodes = async () => {
         try{
@@ -56,31 +55,33 @@ function HighlightErrors({code}: Props) {
     }
 
     useEffect(() => {
-        const nodes = async () => {
-            setSyntax(code);
-            await getNodes();            
-        };
-        nodes();
-
+        getNodes();            
     }, [code])
 
 
-    useEffect(() => {
+    const highlightedCode = useMemo(() => {
+        let result : Array<React.ReactNode | string> = [];
         nodes.forEach(node => {
-            const currentSlice = syntax.slice(node.start, node.end);
+            const currentSlice = code.slice(node.start, node.end);
             if(syntaxError(currentSlice)){
                 const beforeError = code.slice(0, node.start);
                 const afterError = code.slice(node.end, code.length);
-                setSyntax(`${beforeError} ${<span className={styles.error}>{currentSlice}</span>}${afterError}`)
+                result.push(beforeError);
+                result.push(<span className={styles.error}>{currentSlice}</span>);
+                result.push(afterError);
             }
         })
+
+        return result;
     }, [nodes])
+
+
 
 
 
     return (
         <article className={styles.highlight_errors}>
-            {syntax}
+            {highlightedCode.map(code => code)}
         </article>
     )
 }
